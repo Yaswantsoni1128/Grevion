@@ -33,6 +33,6 @@
 ---
 
 ###  Created by
-Yaswant(https://github.com/Yaswantsoni1128)
-Srishti
-Sneha
+Yaswant (https://github.com/Yaswantsoni1128)
+Srishti (https://github.com/srishtisethi28)
+Sneha (https://github.com/Snehaaa-Kri)

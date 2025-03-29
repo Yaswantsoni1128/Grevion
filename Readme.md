@@ -5,6 +5,7 @@
 1. Clone the repository:
    ```sh
    git clone https://github.com/Yaswantsoni1128/Grevion.git
+   cd Grevion
    ```
 2. Install dependencies for both frontend and backend:
    ```sh
@@ -29,3 +30,9 @@
    npm start    # Runs frontend server
    ```
 
+---
+
+###  Created by
+Yaswant(https://github.com/Yaswantsoni1128)
+Srishti
+Sneha

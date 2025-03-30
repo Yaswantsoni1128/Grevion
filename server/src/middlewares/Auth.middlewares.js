@@ -4,7 +4,8 @@ dotenv.config();
 
 const auth= async(req,res,next)=>{
     try {
-        const token= req.cookies.token || req.body.token ||req.header("Authorisation").replace("Bearer","")
+        const token= req.cookies.token || req.body.token || req.header("Authorization")?.replace("Bearer ", "");
+
         if(!token)
         {
             return res.status(401).josn({
@@ -13,7 +14,7 @@ const auth= async(req,res,next)=>{
             })
         }
         try {
-            const decode= jwt.verify(token,process.env.JWT_SECRET)
+            const decode= jwt.verify(token,process.env.SECRET_KEY)
             console.log(decode);
             req.user=decode
         } catch (error) {
@@ -65,7 +66,7 @@ const auth= async(req,res,next)=>{
         })
     }
 }
-export const isPowerPlant= async(req,res,next)=>{
+ const isPowerPlant= async(req,res,next)=>{
     try {
         if(req.user.role!=="power_plant")
         {

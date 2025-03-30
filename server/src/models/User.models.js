@@ -31,6 +31,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     enum: ['farmer','spoc','power_plant'],
     required: true
+  },
+  additionalDeatils: {
+    type: mongoose.Schema.Types.ObjectId,
+    refPath: 'role'
   }
 
 },{timestamps: true})

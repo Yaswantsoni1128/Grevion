@@ -1,16 +1,20 @@
 import {User , Spoc , Farmer , PowerPlant} from "../models/index.js"
 
+
 const completeProfile = async (req, res) => {
     try {
-        const {userId} = req.params;
-        const {  additionalDetails } = req.body;
-        
+        const { userId } = req.params;
+        const { additionalDetails } = req.body;//spocName, village,
+
         const user = await User.findById(userId);
         if (!user) return res.status(404).json({ message: "User not found" });
 
         let profileModel;
+        let extraDetails = {}; // Additional data to add to profile
+
         if (user.role === "spoc") {
             profileModel = Spoc;
+            extraDetails.village = user.location; // Adding village from user.location
         } else if (user.role === "power_plant") {
             profileModel = PowerPlant;
         } else {
@@ -20,9 +24,13 @@ const completeProfile = async (req, res) => {
         // Check if profile already exists
         let profile = await profileModel.findOne({ userId });
         if (profile) {
-            profile = await profileModel.findByIdAndUpdate(profile._id, additionalDetails, { new: true });
+            profile = await profileModel.findByIdAndUpdate(
+                profile._id,
+                { ...additionalDetails, ...extraDetails },
+                { new: true }
+            );
         } else {
-            profile = new profileModel({ userId, ...additionalDetails });
+            profile = new profileModel({ userId, ...additionalDetails, ...extraDetails });
             await profile.save();
         }
 

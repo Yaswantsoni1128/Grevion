@@ -2,9 +2,9 @@ import { Spoc, Farmer, User } from "../models/index.js";
 
 const addFarmer = async (req, res) => {
     try {
-        const userId = req.user.id;  // This is the logged-in user's ID (possibly a SPOC)
-        console.log(userId)
-        const { email,  totalParali } = req.body;
+        const userId = req.user.id;  // This is the logged-in user's ID (SPOC)
+        console.log(userId);
+        const { email, totalParali } = req.body;
 
         // Find the user by email
         const user = await User.findOne({ email });
@@ -24,7 +24,7 @@ const addFarmer = async (req, res) => {
             });
         }
 
-        // Find the SPOC associated with this user
+        // Find the SPOC associated with the logged-in user
         const spoc = await Spoc.findOne({ userId: userId });
         if (!spoc) {
             return res.status(404).json({
@@ -33,12 +33,21 @@ const addFarmer = async (req, res) => {
             });
         }
 
+        // Check if the farmer's village matches the SPOC's village
+        console.log(spoc.village)
+        if (user.location !== spoc.village) {
+            return res.status(400).json({
+                success: false,
+                message: "Farmer's village does not match SPOC's village"
+            });
+        }
+
         // Create new farmer and associate with the found SPOC
         const newFarmer = await Farmer.create({
-            userId: user._id,  // Correctly referencing the user
-            village:user.location,
+            userId: user._id,  
+            village: user.location,
             totalParali,
-            spocId: spoc._id   // Correctly linking the farmer to the Spoc
+            spocId: spoc._id  
         });
 
         // Update Spoc by pushing farmer's ObjectId
@@ -63,4 +72,4 @@ const addFarmer = async (req, res) => {
     }
 };
 
-export  {addFarmer};
+export { addFarmer };

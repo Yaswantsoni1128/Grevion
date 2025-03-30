@@ -9,9 +9,7 @@ const completeProfile = async (req, res) => {
         if (!user) return res.status(404).json({ message: "User not found" });
 
         let profileModel;
-        if (user.role === "farmer") {
-            profileModel = Farmer;
-        } else if (user.role === "spoc") {
+        if (user.role === "spoc") {
             profileModel = Spoc;
         } else if (user.role === "power_plant") {
             profileModel = PowerPlant;

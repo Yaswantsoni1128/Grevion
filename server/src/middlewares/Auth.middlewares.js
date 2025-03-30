@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken"
 import dotenv from "dotenv";
 dotenv.config();
 
-export const auth= async(req,res,next)=>{
+const auth= async(req,res,next)=>{
     try {
         const token= req.cookies.token || req.body.token ||req.header("Authorisation").replace("Bearer","")
         if(!token)
@@ -31,7 +31,7 @@ export const auth= async(req,res,next)=>{
     }
 }
 
-export const isFarmer= async(req,res,next)=>{
+ const isFarmer= async(req,res,next)=>{
     try {
         if(req.user.role!=="farmer")
         {
@@ -48,7 +48,7 @@ export const isFarmer= async(req,res,next)=>{
         })
     }
 }
-export const isSpoc= async(req,res,next)=>{
+ const isSpoc= async(req,res,next)=>{
     try {
         if(req.user.role!=="spoc")
         {
@@ -82,3 +82,5 @@ export const isPowerPlant= async(req,res,next)=>{
         })
     }
 }
+
+export {auth,isFarmer,isSpoc,isPowerPlant}

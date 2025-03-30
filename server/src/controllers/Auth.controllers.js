@@ -5,8 +5,7 @@ import jwt from "jsonwebtoken"
 import dotenv from "dotenv";
 dotenv.config();
 
-
-export const sendOtp = async (req, res) => {
+const sendOtp = async (req, res) => {
     try {
         const { email } = req.body;
 
@@ -49,7 +48,7 @@ export const sendOtp = async (req, res) => {
 
 
 
-export const signUp = async (req, res) => {
+ const signUp = async (req, res) => {
     try {
         const {
             firstName,
@@ -125,7 +124,7 @@ export const signUp = async (req, res) => {
     }
 };
 
-export const login=async(req,res)=>{
+ const login=async(req,res)=>{
     try {
         const {email,password}=req.body;
 
@@ -186,3 +185,5 @@ export const login=async(req,res)=>{
         })
     }
 }
+
+export {sendOtp,login,signUp}

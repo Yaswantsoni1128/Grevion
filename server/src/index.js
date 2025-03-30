@@ -2,8 +2,9 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv"
 import connectDB from "./config/db.js"; 
-import userRoutes from "./routes/User.routes.js"
+import {userRouter, spocRouter} from "./routes/index.js"
 import cookieParser from "cookie-parser"
+import {completeProfileRouter} from "./routes/index.js"
 dotenv.config();
 
 const app = express();
@@ -18,9 +19,9 @@ app.get("/",(req,res)=>{
   res.send("SERVER RUNNING...")
 })
 
-app.use("/api/v1/auth",userRoutes)
+app.use("/api/v1/auth",userRouter);
+app.use("/api/v1/spoc", spocRouter);
 // complete profile routes
-import {completeProfileRouter} from "./routes/index.js"
 app.use("/api/v1/users" , completeProfileRouter)
 
 

@@ -1,11 +1,6 @@
 import mongoose from "mongoose"
 
 const farmerSchema = new mongoose.Schema({
-  userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: true
-  },
   village: {
     type: String,
     required: true

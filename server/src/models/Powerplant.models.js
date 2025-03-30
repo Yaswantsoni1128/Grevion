@@ -16,7 +16,7 @@ const powerPlantSchema = new mongoose.Schema({
   },
   phone:{
     type: String,
-    required: true
+    // required: true
   },
   contactPerson: {
     type: String,
@@ -24,7 +24,8 @@ const powerPlantSchema = new mongoose.Schema({
   },
   requestedParali: {
     type: Number,
-    required: true
+    // required: true
+    min: 0 
   },
   orders: [
     {

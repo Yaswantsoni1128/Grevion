@@ -18,8 +18,16 @@ app.get("/",(req,res)=>{
   res.send("SERVER RUNNING...")
 })
 
+<<<<<<< HEAD
 app.use("/api/v1/auth",userRouter);
 app.use("/api/v1/spoc", spocRouter);
+=======
+app.use("/api/v1/auth",userRoutes)
+// complete profile routes
+import {completeProfileRouter} from "./routes/index.js"
+app.use("/api/v1/users" , completeProfileRouter)
+
+>>>>>>> 7b43e9a324606848f0c3102cced4f61e568712ff
 
 
 const PORT = process.env.PORT || 5000;

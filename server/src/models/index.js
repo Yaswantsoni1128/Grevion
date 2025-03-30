@@ -1,10 +1,11 @@
-import {User} from "./User.models"
-import {Farmer} from "./Farmer.models"
-import {Spoc} from "./Spoc.models"
-import {PowerPlant} from "./Powerplant.models"
-import { ParaliList } from "./ParaliListing.models"
-import { Order } from "./Orders.models"
-import { Notification } from "./Notifications.model"
-import { Request } from "./Request.models"
+import {User} from "./User.models.js"
+import {Farmer} from "./Farmer.models.js"
+import {Spoc} from "./Spoc.models.js"
+import {PowerPlant} from "./Powerplant.models.js"
+import { ParaliList } from "./ParaliListing.models.js"
+import { Order } from "./Orders.models.js"
+import { Notification } from "./Notifications.model.js"
+import { Request } from "./Request.models.js"
+import { Otp } from "./Otp.models.js"
 
-export {User , Farmer , Spoc , PowerPlant , ParaliList , Order , Notification , Request} 
+export {User , Farmer , Spoc , PowerPlant , ParaliList , Order , Notification , Request , Otp} 

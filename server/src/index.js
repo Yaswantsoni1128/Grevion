@@ -19,6 +19,9 @@ app.get("/",(req,res)=>{
 })
 
 app.use("/api/v1/auth",userRoutes)
+// complete profile routes
+import {completeProfileRouter} from "./routes/index.js"
+app.use("/api/v1/users" , completeProfileRouter)
 
 
 

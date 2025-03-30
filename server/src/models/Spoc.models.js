@@ -8,7 +8,7 @@ const spocSchema = new mongoose.Schema({
   },
   village: {
     type: String,
-    required: true
+    // required: true
   },
   farmers:[
     {
@@ -18,7 +18,7 @@ const spocSchema = new mongoose.Schema({
   ],
   totalParaliCollected: {
     type: Number,
-    required: true,
+    // required: true,
     min: 0
   },
   requests: [{
@@ -27,7 +27,7 @@ const spocSchema = new mongoose.Schema({
   }],
   pricePerTon: {
     type: Number,
-    required: true,
+    // required: true,
     min: 0
   },
   availableForSale: {

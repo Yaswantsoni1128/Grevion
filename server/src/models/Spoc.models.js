@@ -8,7 +8,7 @@ const spocSchema = new mongoose.Schema({
   },
   village: {
     type: String,
-    // required: true
+    required: true
   },
   farmers:[
     {

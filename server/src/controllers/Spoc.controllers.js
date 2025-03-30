@@ -63,4 +63,36 @@ const addFarmer = async (req, res) => {
     }
 };
 
-export  {addFarmer};
+const updateFarmer = async (req, res) => {
+    try{
+        const farmerId = req.params.farmerId;
+        const {user_firstname,user_lastname, user_phone, farmer_totalParali} = req.body;
+
+        if(!user_firstname || !user_lastname || !user_phone || !farmer_totalParali){
+            return res.status(404).json({
+                success: false,
+                message: "All fields required!"
+            })
+        }
+
+        if(!await Farmer.findById(farmerId)) return res.status(400).json({success: false, message: "Farmer id doesn't exists!"});
+        console.log(farmer_totalParali)
+        
+        const updatedFarmer = await Farmer.findByIdAndUpdate(farmerId, {totalParali : farmer_totalParali }, {new: true})
+        console.log(updatedFarmer)
+        const userid = updatedFarmer.userId;
+        const updatedUser = await User.findByIdAndUpdate(userid, {firstName : user_firstname, lastName: user_lastname, phone: user_phone}, {new: true, runValidators: true})
+
+
+        res.status(200).json({updatedFarmer, updatedUser, message: "Details updated successfully!"} )
+    }
+    catch(error){
+        console.log("Error updating farmer details", error);
+        return res.status(500).json({
+            success : false,
+            message :"Error updating farmer details. Try again!"
+        })
+    }
+}
+
+export  {addFarmer, updateFarmer};

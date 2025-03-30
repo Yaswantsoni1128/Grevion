@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv"
 import connectDB from "./config/db.js"; 
-import userRoutes from "./routes/User.routes.js"
+import {userRouter, spocRouter} from "./routes/index.js"
 import cookieParser from "cookie-parser"
 dotenv.config();
 
@@ -18,7 +18,8 @@ app.get("/",(req,res)=>{
   res.send("SERVER RUNNING...")
 })
 
-app.use("/api/v1/auth",userRoutes)
+app.use("/api/v1/auth",userRouter);
+app.use("/api/v1/spoc", spocRouter);
 
 
 const PORT = process.env.PORT || 5000;

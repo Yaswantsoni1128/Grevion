@@ -1,4 +1,4 @@
-import { User , Otp } from "../models/index.js"
+import { User , Otp, Spoc, PowerPlant } from "../models/index.js"
 import otpGenerator from "otp-generator";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken"
@@ -47,8 +47,7 @@ const sendOtp = async (req, res) => {
 };
 
 
-
- const signUp = async (req, res) => {
+const signUp = async (req, res) => {
     try {
         const {
             firstName,
@@ -61,13 +60,12 @@ const sendOtp = async (req, res) => {
             otp
         } = req.body;
 
-        if (!firstName || !lastName || !email || !password || !phone || !otp || !role ||!location ) {
+        if (!firstName || !lastName || !email || !password || !phone || !otp || !role || !location) {
             return res.status(403).json({
                 success: false,
                 message: "All fields are required",
             });
         }
-
 
         const existingUser = await User.findOne({ email });
         if (existingUser) {
@@ -95,7 +93,8 @@ const sendOtp = async (req, res) => {
 
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        const user = {
+        // Create user object
+        const user = new User({
             firstName,
             lastName,
             email,
@@ -104,10 +103,36 @@ const sendOtp = async (req, res) => {
             location,
             phone,
             image: `https://api.dicebear.com/5.x/initials/svg?seed=${firstName} ${lastName}`
-        };
+        });
 
-        const newUser = new User(user);
-        const savedUser = await newUser.save();
+        // Save user in User model
+        const savedUser = await user.save();
+
+        // If the user is a SPOC, save them in the SPOC model
+        if (role === "spoc") {
+            const newSpoc = new Spoc({
+                userId: savedUser._id, // Reference to the User model
+                name: `${firstName} ${lastName}`,
+                email,
+                phone,
+                location
+            });
+
+            await newSpoc.save();
+        }
+
+        // If the user is a Power Plant, save them in the PowerPlant model
+        if (role === "power_plant") {
+            const newPowerPlant = new PowerPlant({
+                userId: savedUser._id, // Reference to the User model
+                name: `${firstName} ${lastName}`,
+                email,
+                phone,
+                location
+            });
+
+            await newPowerPlant.save();
+        }
 
         return res.status(200).json({
             success: true,
@@ -123,6 +148,7 @@ const sendOtp = async (req, res) => {
         });
     }
 };
+
 
  const login=async(req,res)=>{
     try {

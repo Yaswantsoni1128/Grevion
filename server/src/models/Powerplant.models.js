@@ -6,10 +6,6 @@ const powerPlantSchema = new mongoose.Schema({
     ref: "User",
     required: true
   },
-  companyName: {
-    type: String,
-    required: true
-  },
   location:{
     type: String,
     required: true
@@ -17,10 +13,6 @@ const powerPlantSchema = new mongoose.Schema({
   phone:{
     type: String,
     // required: true
-  },
-  contactPerson: {
-    type: String,
-    required: true
   },
   requestedParali: {
     type: Number,

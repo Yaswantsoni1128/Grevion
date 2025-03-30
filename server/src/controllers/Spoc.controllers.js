@@ -2,30 +2,29 @@ import { Spoc, Farmer, User } from "../models/index.js";
 
 const addFarmer = async (req, res) => {
     try {
-        const userId = req.user.id;  // This is the logged-in user's ID (possibly a SPOC)
-        console.log(userId)
-        const { email,  totalParali } = req.body;
+        const userId = req.user.id; 
+        console.log(userId);
 
-        // Find the user by email
-        const user = await User.findOne({ email });
+        const {name, phone,email, totalParali } = req.body;
 
-        if (!user) {
-            return res.status(404).json({
+        if (!email || !name || ! phone ||!totalParali) {
+            return res.status(400).json({
                 success: false,
-                message: "User does not exist"
+                message: "All fields are required"
             });
         }
 
-        // Check if user is a farmer
-        if (user.role !== "farmer") {
+        
+        const existingFarmer = await Farmer.findOne({ email });
+        if (existingFarmer) {
             return res.status(400).json({
                 success: false,
-                message: "User is not a farmer"
+                message: "Farmer already exists"
             });
         }
 
         // Find the SPOC associated with this user
-        const spoc = await Spoc.findOne({ userId: userId });
+        const spoc = await Spoc.findOne({ userId });
         if (!spoc) {
             return res.status(404).json({
                 success: false,
@@ -33,25 +32,28 @@ const addFarmer = async (req, res) => {
             });
         }
 
-        // Create new farmer and associate with the found SPOC
+        // Create a new farmer and associate with the SPOC
+        console.log(spoc.location)
         const newFarmer = await Farmer.create({
-            userId: user._id,  // Correctly referencing the user
-            village:user.location,
+            name,
+            email,
+            phone,
+            village: spoc.location,  
             totalParali,
-            spocId: spoc._id   // Correctly linking the farmer to the Spoc
+            spocId: spoc._id
         });
-
+        console.log(newFarmer)
         // Update Spoc by pushing farmer's ObjectId
-        const updatedSpoc = await Spoc.findByIdAndUpdate(
+        await Spoc.findByIdAndUpdate(
             spoc._id,
-            { $push: { farmers: newFarmer._id } },
+            { $push: { farmers: newFarmer._id },$inc: { totalParaliCollected: totalParali }  },
             { new: true }
         );
 
         return res.status(200).json({
             success: true,
             message: "Farmer added successfully",
-            updatedSpoc
+            newFarmer
         });
 
     } catch (error) {
@@ -64,35 +66,113 @@ const addFarmer = async (req, res) => {
 };
 
 const updateFarmer = async (req, res) => {
-    try{
+    try {
         const farmerId = req.params.farmerId;
-        const {user_firstname,user_lastname, user_phone, farmer_totalParali} = req.body;
+        const { name, phone, email, totalParali } = req.body;
 
-        if(!user_firstname || !user_lastname || !user_phone || !farmer_totalParali){
-            return res.status(404).json({
+        if (!name || !phone || !email || totalParali === undefined) {
+            return res.status(400).json({
                 success: false,
-                message: "All fields required!"
-            })
+                message: "All fields are required!"
+            });
         }
 
-        if(!await Farmer.findById(farmerId)) return res.status(400).json({success: false, message: "Farmer id doesn't exists!"});
-        console.log(farmer_totalParali)
+        const farmerObj = await Farmer.findById(farmerId);
+        if (!farmerObj) {
+            return res.status(400).json({ success: false, message: "Farmer ID doesn't exist!" });
+        }
+
+        const spocId = farmerObj.spocId;
+        const previousParali = farmerObj.totalParali;
+        const paraliDifference = totalParali - previousParali; // Calculate the difference
+
+        // Update Farmer details
+        const updatedFarmer = await Farmer.findByIdAndUpdate(
+            farmerId, 
+            { totalParali, name, phone, email }, 
+            { new: true }
+        );
+
+        // Update totalParaliCollected in Spoc
+        await Spoc.findByIdAndUpdate(
+            spocId,
+            { $inc: { totalParaliCollected: paraliDifference } }, // Adjust based on difference
+            { new: true }
+        );
+
+        return res.status(200).json({
+            success: true,
+            updatedFarmer,
+            message: "Farmer details updated successfully!"
+        });
+
+    } catch (error) {
+        console.log("Error updating farmer details:", error);
+        return res.status(500).json({
+            success: false,
+            message: "Error updating farmer details. Try again!"
+        });
+    }
+};
+
+
+const getAllFarmers = async (req, res) => {
+    try {
+        const userId = req.user.id;
+
+        // Find the SPOC using userId
+        const spoc = await Spoc.findOne({ userId }).populate("farmers");
+
+        // Check if SPOC exists
+        if (!spoc) {
+            return res.status(404).json({
+                success: false,
+                message: "SPOC not found for this user",
+            });
+        }
+
+        return res.status(200).json({
+            success: true,
+            message: "All farmers fetched successfully",
+            farmers: spoc.farmers,
+        });
+
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            success: false,
+            message: "Error fetching farmers",
+        });
+    }
+};
+
+
+const deleteFarmer = async (req, res) => {
+    try{
+        const farmerId = req.params.farmerId;
+        console.log(farmerId);
         
-        const updatedFarmer = await Farmer.findByIdAndUpdate(farmerId, {totalParali : farmer_totalParali }, {new: true})
-        console.log(updatedFarmer)
-        const userid = updatedFarmer.userId;
-        const updatedUser = await User.findByIdAndUpdate(userid, {firstName : user_firstname, lastName: user_lastname, phone: user_phone}, {new: true, runValidators: true})
+        const farmerObj = await Farmer.findById(farmerId);
+        if(!farmerObj) return res.status(204).json({message: "Farmer doesn't exists"});
+        const spocid = farmerObj.spocId;
+        
+        console.log(spocid);
+      
 
+        const updatedSpoc = await Spoc.findByIdAndUpdate(spocid, 
+            {$pull : {farmers: farmerId}, $inc: {totalParaliCollected: -farmerObj.totalParali}},
+            {new: true});
+        await Farmer.findByIdAndDelete(farmerId);
 
-        res.status(200).json({updatedFarmer, updatedUser, message: "Details updated successfully!"} )
+        res.status(200).json({updatedSpoc, success: true, message: "deleted farmer successfully!"})
     }
     catch(error){
-        console.log("Error updating farmer details", error);
-        return res.status(500).json({
+        console.log("Error deleting farmer: ", error);
+        return res.status(400).json({
             success : false,
-            message :"Error updating farmer details. Try again!"
+            message: "Error deleting farmer"
         })
     }
 }
 
-export  {addFarmer, updateFarmer};
+export  {addFarmer, updateFarmer, deleteFarmer, getAllFarmers};

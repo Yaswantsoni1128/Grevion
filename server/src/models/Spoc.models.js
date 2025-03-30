@@ -6,10 +6,6 @@ const spocSchema = new mongoose.Schema({
     ref: "User",
     required: true
   },
-  village: {
-    type: String,
-    required: true
-  },
   farmers:[
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -29,6 +25,10 @@ const spocSchema = new mongoose.Schema({
     type: Number,
     // required: true,
     min: 0
+  },
+  location:{
+    type:String,
+    required:true,
   },
   availableForSale: {
     type: Boolean,

@@ -97,4 +97,28 @@ const updateFarmer = async (req, res) => {
     }
 }
 
-export  {addFarmer, updateFarmer};
+const deleteFarmer = async (req, res) => {
+    try{
+        const farmerId = req.params.farmerId;
+        console.log(farmerId);
+        
+        const farmerObj = await Farmer.findById(farmerId);
+        if(!farmerObj) return res.status(204).json({message: "Farmer doesn't exists"});
+        const spocid = farmerObj.spocId;
+        
+        console.log(spocid);
+        const updatedSpoc = await Spoc.findByIdAndUpdate(spocid, {$pull : {farmers: farmerId}}, {new: true});
+        await Farmer.findByIdAndDelete(farmerId);
+
+        res.status(200).json({updatedSpoc, success: true, message: "deleted farmer successfully!"})
+    }
+    catch(error){
+        console.log("Error deleting farmer: ", error);
+        return res.status(400).json({
+            success : false,
+            message: "Error deleting farmer"
+        })
+    }
+}
+
+export  {addFarmer, updateFarmer, deleteFarmer};

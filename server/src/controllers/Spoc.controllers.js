@@ -126,7 +126,6 @@ const getAllFarmers = async (req, res) => {
 };
 
 
-export  {addFarmer, updateFarmer, getAllFarmers};
 const deleteFarmer = async (req, res) => {
     try{
         const farmerId = req.params.farmerId;
@@ -151,4 +150,4 @@ const deleteFarmer = async (req, res) => {
     }
 }
 
-export  {addFarmer, updateFarmer, deleteFarmer};
+export  {addFarmer, updateFarmer, deleteFarmer, getAllFarmers};

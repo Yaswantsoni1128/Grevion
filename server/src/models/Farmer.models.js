@@ -9,7 +9,6 @@ const farmerSchema = new mongoose.Schema({
     type:String,
     required:true
   },
-  },
   village: {
     type: String,
     required: true

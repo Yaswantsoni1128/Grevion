@@ -46,7 +46,7 @@ const addFarmer = async (req, res) => {
         // Update Spoc by pushing farmer's ObjectId
         await Spoc.findByIdAndUpdate(
             spoc._id,
-            { $push: { farmers: newFarmer._id } },
+            { $push: { farmers: newFarmer._id },$inc: { totalParaliCollected: totalParali }  },
             { new: true }
         );
 
@@ -66,34 +66,55 @@ const addFarmer = async (req, res) => {
 };
 
 const updateFarmer = async (req, res) => {
-    try{
+    try {
         const farmerId = req.params.farmerId;
-        const {name, phone,email, totalParali } = req.body;
+        const { name, phone, email, totalParali } = req.body;
 
-        if(!name || !phone || !email || !totalParali){
-            return res.status(404).json({
+        if (!name || !phone || !email || totalParali === undefined) {
+            return res.status(400).json({
                 success: false,
-                message: "All fields required!"
-            })
+                message: "All fields are required!"
+            });
         }
 
-        if(!await Farmer.findById(farmerId)) return res.status(400).json({success: false, message: "Farmer id doesn't exists!"});
-        
-        
-        const updatedFarmer = await Farmer.findByIdAndUpdate(farmerId, {totalParali :totalParali, name:name, phone:phone, email:email }, {new: true})
-        console.log(updatedFarmer)
-        
+        const farmerObj = await Farmer.findById(farmerId);
+        if (!farmerObj) {
+            return res.status(400).json({ success: false, message: "Farmer ID doesn't exist!" });
+        }
 
-        res.status(200).json({updatedFarmer, message: "Details updated successfully!"} )
-    }
-    catch(error){
-        console.log("Error updating farmer details", error);
+        const spocId = farmerObj.spocId;
+        const previousParali = farmerObj.totalParali;
+        const paraliDifference = totalParali - previousParali; // Calculate the difference
+
+        // Update Farmer details
+        const updatedFarmer = await Farmer.findByIdAndUpdate(
+            farmerId, 
+            { totalParali, name, phone, email }, 
+            { new: true }
+        );
+
+        // Update totalParaliCollected in Spoc
+        await Spoc.findByIdAndUpdate(
+            spocId,
+            { $inc: { totalParaliCollected: paraliDifference } }, // Adjust based on difference
+            { new: true }
+        );
+
+        return res.status(200).json({
+            success: true,
+            updatedFarmer,
+            message: "Farmer details updated successfully!"
+        });
+
+    } catch (error) {
+        console.log("Error updating farmer details:", error);
         return res.status(500).json({
-            success : false,
-            message :"Error updating farmer details. Try again!"
-        })
+            success: false,
+            message: "Error updating farmer details. Try again!"
+        });
     }
-}
+};
+
 
 const getAllFarmers = async (req, res) => {
     try {
@@ -136,7 +157,11 @@ const deleteFarmer = async (req, res) => {
         const spocid = farmerObj.spocId;
         
         console.log(spocid);
-        const updatedSpoc = await Spoc.findByIdAndUpdate(spocid, {$pull : {farmers: farmerId}}, {new: true});
+      
+
+        const updatedSpoc = await Spoc.findByIdAndUpdate(spocid, 
+            {$pull : {farmers: farmerId}, $inc: {totalParaliCollected: -farmerObj.totalParali}},
+            {new: true});
         await Farmer.findByIdAndDelete(farmerId);
 
         res.status(200).json({updatedSpoc, success: true, message: "deleted farmer successfully!"})

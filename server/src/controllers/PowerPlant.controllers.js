@@ -135,4 +135,39 @@ const placeOrder = async (req, res) => {
   }
 };
 
-export  {getAllSpoc, placeOrder}
+const getAllOrders = async (req, res) =>{
+    try{
+        const user_id = req.user.userId;
+        console.log("user id = ",user_id);
+        const pp = await PowerPlant.findOne({user_id}).populate({
+            path: "orders",
+            model: "Order"
+        });
+        console.log(pp);
+        if(!pp){
+            return res.status(404).json({
+                success: false,
+                message: "power plant not found"
+            })
+        } 
+
+        console.log("Orders inside PowerPlant: ", pp.orders);
+        res.status(200).json({
+            success: true,
+            message : "All orders fetched successfully",
+            orders: pp.orders|| []
+        })
+
+
+    }
+    catch(error){
+        console.log("Error in fetching all orders :", error);
+        return res.status(400).json({
+            success: false,
+            message: "getAllOrders failed. Try again!"
+        })
+    }
+}
+
+
+export  {getAllSpoc, placeOrder, getAllOrders}

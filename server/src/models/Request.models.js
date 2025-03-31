@@ -6,9 +6,9 @@ const requestSchema = new mongoose.Schema({
     ref: "PowerPlant",
     required: true,
   },
-  powerPlantName: {
-    type: String,
-    required : true,
+  name:{
+    type:String,
+    required:true,
   },
   spocId: {
     type: mongoose.Schema.Types.ObjectId,
@@ -29,6 +29,14 @@ const requestSchema = new mongoose.Schema({
     type: Number,
     min : 0,
     required: true,
+  },
+  deliverWithin:{
+    type:Number,
+    required:true
+  },
+  location:{
+    type:String,
+    required:true,
   },
   status: {
     type: String,

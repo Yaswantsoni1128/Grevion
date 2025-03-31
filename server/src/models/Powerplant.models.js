@@ -1,6 +1,10 @@
 import mongoose from "mongoose"
 
 const powerPlantSchema = new mongoose.Schema({
+  name:{
+    type:String,
+    required:true,
+  },
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",

@@ -50,8 +50,7 @@ const sendOtp = async (req, res) => {
 const signUp = async (req, res) => {
     try {
         const {
-            firstName,
-            lastName,
+            name,
             email,
             password,
             phone,
@@ -60,7 +59,7 @@ const signUp = async (req, res) => {
             otp
         } = req.body;
 
-        if (!firstName || !lastName || !email || !password || !phone || !otp || !role || !location) {
+        if (!name || !email || !password || !phone || !otp || !role || !location) {
             return res.status(403).json({
                 success: false,
                 message: "All fields are required",
@@ -76,7 +75,7 @@ const signUp = async (req, res) => {
         }
 
         const recentOtp = await Otp.find({ email }).sort({ createdAt: -1 }).limit(1);
-
+        console.log(recentOtp)
         if (recentOtp.length === 0) {
             return res.status(400).json({
                 success: false,
@@ -95,14 +94,13 @@ const signUp = async (req, res) => {
 
         // Create user object
         const user = new User({
-            firstName,
-            lastName,
+            name,
             email,
             password: hashedPassword,
             role,
             location,
             phone,
-            image: `https://api.dicebear.com/5.x/initials/svg?seed=${firstName} ${lastName}`
+            image: `https://api.dicebear.com/5.x/initials/svg?seed=${name} ${name}`
         });
 
         // Save user in User model
@@ -112,7 +110,7 @@ const signUp = async (req, res) => {
         if (role === "spoc") {
             const newSpoc = new Spoc({
                 userId: savedUser._id, // Reference to the User model
-                name: `${firstName} ${lastName}`,
+                name: `${name} `,
                 email,
                 phone,
                 location
@@ -125,7 +123,7 @@ const signUp = async (req, res) => {
         if (role === "power_plant") {
             const newPowerPlant = new PowerPlant({
                 userId: savedUser._id, // Reference to the User model
-                name: `${firstName} ${lastName}`,
+                name: `${name}`,
                 email,
                 phone,
                 location

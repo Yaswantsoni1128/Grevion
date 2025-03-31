@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv"
 import connectDB from "./config/db.js"; 
-import {userRouter, spocRouter} from "./routes/index.js"
+import {userRouter, spocRouter, PowerPlantRouter} from "./routes/index.js"
 import cookieParser from "cookie-parser"
 import {completeProfileRouter} from "./routes/index.js"
 dotenv.config();
@@ -23,6 +23,7 @@ app.use("/api/v1/auth",userRouter);
 app.use("/api/v1/spoc", spocRouter);
 // complete profile routes
 app.use("/api/v1/users" , completeProfileRouter)
+app.use("/api/v1/powerplant", PowerPlantRouter)
 
 
 

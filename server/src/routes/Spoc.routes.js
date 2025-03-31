@@ -5,11 +5,10 @@ import { addFarmer, updateFarmer ,getAllFarmers , deleteFarmer, getAllSpoc } fro
 import {auth, isSpoc} from  "../middlewares/index.js"
 const spocRouter= express.Router();
 
-spocRouter.post("/addFarmer",auth,addFarmer)
-spocRouter.get("/getAllFarmers",auth, getAllFarmers)
-spocRouter.delete("/deleteFarmer/:farmerId",auth, deleteFarmer)
-spocRouter.put("/updateFarmer/:farmerId",auth,updateFarmer)
-spocRouter.get("/getAllSpoc", getAllSpoc);
+spocRouter.post("/addFarmer",auth, isSpoc, addFarmer)
+spocRouter.get("/getAllFarmers",auth, isSpoc, getAllFarmers)
+spocRouter.delete("/deleteFarmer/:farmerId",auth, isSpoc, deleteFarmer)
+spocRouter.put("/updateFarmer/:farmerId",auth, isSpoc, updateFarmer)
 
 // spocRouter.post("/uploadSpoc", uploadSpoc)
 export default spocRouter

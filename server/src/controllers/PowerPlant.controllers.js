@@ -134,6 +134,4 @@ const placeOrder = async (req, res) => {
   }
 };
 
-
-
 export  {getAllSpoc, placeOrder}

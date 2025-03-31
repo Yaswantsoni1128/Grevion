@@ -110,7 +110,7 @@ const Signup = () => {
       <div className='flex items-center justify-center w-full h-screen'>
         <div className='flex items-center justify-center w-full h-[90%] '>
           <div className='items-center justify-center hidden w-1/2 h-full px-10 py-2 bg-white shadow-xl rounded-l-xl lg:flex'>
-            <img src="./signup.gif" alt="" className='object-cover w-full h-full rounded-xl' />
+            <img src="./signup_animation.gif" alt="" className='object-cover w-full h-full rounded-xl' />
           </div>
           <div className='flex flex-col items-center w-full h-full px-10 py-3 bg-white shadow-r-xl md:w-1/3 rounded-r-xl'>
             <h2 className='mb-4 text-3xl font-bold text-gray-700'>Create Account</h2>

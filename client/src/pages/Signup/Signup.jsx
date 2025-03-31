@@ -5,8 +5,8 @@ import {toast , ToastContainer} from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css';
 
 const Signup = () => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [name, setName] = useState("");
+  // const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
   const [password, setPassword] = useState("");
@@ -61,7 +61,7 @@ const Signup = () => {
     e.preventDefault();
     try {
       const response = await axios.post("http://localhost:8000/api/v1/auth/signup", {
-        firstName, lastName, email, otp, password, role, phone, location
+        name,  email, otp, password, role, phone, location
       });
       if (response.data.success) {
          toast.success("Signup successful! You can now log in.", {
@@ -116,17 +116,17 @@ const Signup = () => {
             <h2 className='mb-4 text-3xl font-bold text-gray-700'>Create Account</h2>
             <form onSubmit={submitHandler} className='flex flex-col w-full gap-2'>
               <div className='flex w-full gap-2'>
-                <div className='w-1/2'>
-                  <label className='block font-medium text-gray-700 text-md'>First Name</label>
+                <div className='w-full'>
+                  <label className='block font-medium text-gray-700 text-md'>Name</label>
                   <input
                     type='text'
                     placeholder='Enter your first name'
-                    value={firstName}
-                    onChange={(e) => setFirstName(e.target.value)}
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
                     className='w-full px-4 py-2 mt-1 border border-gray-300 outline-none rounded-xl focus:ring-2 focus:ring-green-400'
                   />
                 </div>
-                <div className='w-1/2'>
+                {/* <div className='w-1/2'>
                   <label className='block font-medium text-gray-700 text-md'>Last Name</label>
                   <input
                     type='text'
@@ -135,7 +135,7 @@ const Signup = () => {
                     onChange={(e) => setLastName(e.target.value)}
                     className='w-full px-4 py-2 mt-1 border border-gray-300 outline-none rounded-xl focus:ring-2 focus:ring-green-400'
                   />
-                </div>
+                </div> */}
                 
               </div>
               <div className='flex items-center justify-between gap-2'>

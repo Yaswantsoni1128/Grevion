@@ -76,21 +76,6 @@ const placeOrder = async (req, res) => {
     }
 
     console.log(user.name);
-
-    // Create Request document and save it to get _id
-    const newRequest = await Request.create({
-      powerPlantId: powerPlant._id, // Use actual PowerPlant _id
-      spocId: spocId,
-      name: user.name,
-      requestedParali,
-      offeredPricePerTon,
-      totalPrice,
-      deliverWithin,
-      location,
-      message,
-    });
-
-    // Create Order document and save it to get _id
     const newOrder = await Order.create({
       powerPlantId: powerPlant._id, // Use actual PowerPlant _id
       spocId: spocId,
@@ -101,6 +86,22 @@ const placeOrder = async (req, res) => {
       totalPrice,
       deliverWithin,
     });
+
+    // Create Request document and save it to get _id
+    const newRequest = await Request.create({
+      powerPlantId: powerPlant._id, // Use actual PowerPlant _id
+      spocId: spocId,
+      orderId:newOrder._id,
+      name: user.name,
+      requestedParali,
+      offeredPricePerTon,
+      totalPrice,
+      deliverWithin,
+      location,
+      message,
+    });
+
+    
 
     // Update Spoc and PowerPlant with the saved document _id
     const updatedSpoc = await Spoc.findByIdAndUpdate(

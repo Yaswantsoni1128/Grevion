@@ -6,6 +6,10 @@ const requestSchema = new mongoose.Schema({
     ref: "PowerPlant",
     required: true,
   },
+  orderId:{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:"Order"
+  },
   name:{
     type:String,
     required:true,

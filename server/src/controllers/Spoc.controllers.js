@@ -1,4 +1,5 @@
-import { Spoc, Farmer, User } from "../models/index.js";
+
+import { Spoc, Farmer, User, Request } from "../models/index.js";
 
 const addFarmer = async (req, res) => {
     try {
@@ -206,5 +207,52 @@ const getAllRequests = async (req, res) => {
     }
   };
   
+  const acceptRequest= async(req,res)=>{
+    try {
+        const id=req.user.id;
+        console.log()
+        const reqid=req.params.reqid;
+        let request= await Request.findById(reqid)
+        let spoc= await Spoc.findOne({id});
+        if(!spoc.totalParaliCollected>=request.requestedParali)
+        {
+            return res.status(400).json({
+                success:false,
+                message:"Insufficient quantity"
+            })
+        }
+        spoc=await Spoc.findOneAndUpdate({id},
+            {
+                $inc:{totalParaliCollected:-request.requestedParali}
+            },
+            {new:true}
+        );
+        
+        request=await Request.findByIdAndUpdate(reqid,
+            {
+                status:"accepted",
+            },
+            {new:true}
+        )
 
-export  {addFarmer, updateFarmer, deleteFarmer, getAllFarmers, getAllRequests};
+        const orderId= request.orderId;
+        const Order= await Order.findByIdAndUpdate(orderId,
+            {
+                status:"accepted"
+            },
+            {new:true}
+        )
+        return res.status(200).json({
+            success:true,
+            message:"Request Accepted successfully"
+        })
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            success:false,
+            message:"Unable to accept request, please try again"
+        })
+    }
+  }
+
+export  {addFarmer, updateFarmer, deleteFarmer, getAllFarmers, getAllRequests, acceptRequest};

@@ -113,7 +113,8 @@ const signUp = async (req, res) => {
                 name: `${name} `,
                 email,
                 phone,
-                location
+                location,
+                totalParaliCollected:0,
             });
 
             await newSpoc.save();

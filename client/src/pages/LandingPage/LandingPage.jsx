@@ -1,12 +1,15 @@
 import React from 'react'
-import HomePage from '../../components/LandingPage/HomePage'
-import Home2 from '../../components/LandingPage/Home2'
+import HeroSection from '../../components/LandingPage/HeroSection'
+import Review from '../../components/LandingPage/Review'
+import AboutUsSection from '../../components/LandingPage/About'
 
 const LandingPage = () => {
   return (
     <div>
-      <HomePage />
-      <Home2 />
+      <HeroSection/>
+     
+      <AboutUsSection />
+      {/* <Review/> */}
     </div>
   )
 }

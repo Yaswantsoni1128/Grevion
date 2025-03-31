@@ -249,15 +249,17 @@ const getAllRequests = async (req, res) => {
         // Update Spoc's totalParaliCollected
         spoc = await Spoc.findByIdAndUpdate(
             spoc._id,
-            { $inc: { totalParaliCollected: -request.requestedParali } },
+            {
+                $inc: { totalParaliCollected: -request.requestedParali },
+                $pull: { requests: reqid }  // Remove request ID from Spoc requests array
+            },
             { new: true }
         );
+        
 
         // Update request status to "accepted"
-        request = await Request.findByIdAndUpdate(
+        request = await Request.findByIdAndDelete(
             reqid,
-            { status: "accepted" },
-            { new: true }
         );
 
         // Update order status
@@ -267,7 +269,6 @@ const getAllRequests = async (req, res) => {
             { status: "accepted" },
             { new: true }
         );
-
         return res.status(200).json({
             success: true,
             message: "Request accepted successfully",
@@ -285,6 +286,57 @@ const getAllRequests = async (req, res) => {
     }
 };
 
+const declineRequest= async(req,res)=>{
+    try {
+        const userId = req.user.id;  // This is the user ID
+        const reqid = req.params.reqid; // Request ID from params
+
+        console.log("Received User ID:", userId);
+        console.log("Received Request ID:", reqid);
+
+        // Fetch the request
+        let request = await Request.findById(reqid);
+        if (!request) {
+            return res.status(404).json({
+                success: false,
+                message: "Request not found"
+            });
+        }
+
+        request = await Request.findByIdAndDelete(
+            reqid,
+        );
+
+        // Update order status
+        const orderId = request.orderId;
+        const order = await Order.findByIdAndUpdate(
+            orderId,
+            { status: "rejected" },
+            { new: true }
+        );
+        let spoc = await Spoc.findOne({ userId: userId })
+        spoc = await Spoc.findByIdAndUpdate(
+            spoc._id,
+            {
+                $pull: { requests: reqid }  // Remove request ID from Spoc requests array
+            },
+            { new: true }
+        );
+        return res.status(200).json({
+            success: true,
+            message: "Request rejected successfully",
+            updatedRequest: request,
+            updatedOrder: order
+        });
+    } catch (error) {
+        console.error("Error rejecting request:", error);
+        return res.status(500).json({
+            success: false,
+            message: "Unable to reject request, please try again"
+        });
+    }
+}
 
 
-export  {addFarmer, updateFarmer, deleteFarmer, getAllFarmers, getAllRequests, acceptRequest};
+
+export  {addFarmer, updateFarmer, deleteFarmer, getAllFarmers, getAllRequests, acceptRequest, declineRequest};

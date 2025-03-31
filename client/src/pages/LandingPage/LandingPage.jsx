@@ -1,12 +1,14 @@
 import React from 'react'
-import HeroSection from '../../components/LandingPage/HeroSection'
 import Review from '../../components/LandingPage/Review'
 import AboutUsSection from '../../components/LandingPage/About'
+import GrevionEnergyTrade from '../../components/LandingPage/GrevionEnergyTrade'
+import LandingImage from '../../components/LandingPage/LandingImage'
 
 const LandingPage = () => {
   return (
     <div>
-      <HeroSection/>
+      <GrevionEnergyTrade/>
+      <LandingImage/>
      
       <AboutUsSection />
       {/* <Review/> */}

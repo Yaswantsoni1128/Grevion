@@ -3,9 +3,9 @@ import { sendOtp,login,signUp } from "./Auth.controllers.js";
 import { completeProfile , getUserProfile } from "./CompleteProfile.controllers.js";
 
 import { getAllSpoc , placeOrder, getAllOrders} from "./PowerPlant.controllers.js";
-import { addFarmer, updateFarmer, getAllFarmers ,deleteFarmer,getAllRequests, acceptRequest} from "./Spoc.controllers.js";
+import { addFarmer, updateFarmer, getAllFarmers ,deleteFarmer,getAllRequests, acceptRequest, declineRequest} from "./Spoc.controllers.js";
 
-export { sendOtp,login,signUp, completeProfile , getUserProfile, addFarmer, updateFarmer, getAllFarmers, deleteFarmer, getAllSpoc, placeOrder,getAllRequests ,acceptRequest,getAllOrders}
+export { sendOtp,login,signUp, completeProfile , getUserProfile, addFarmer, updateFarmer, getAllFarmers, deleteFarmer, getAllSpoc, placeOrder,getAllRequests ,acceptRequest,getAllOrders, declineRequest}
 
 
 

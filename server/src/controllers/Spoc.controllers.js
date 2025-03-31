@@ -1,4 +1,4 @@
-import { Spoc, Farmer, User } from "../models/index.js";
+import { Spoc, Farmer, User, PowerPlant } from "../models/index.js";
 
 const addFarmer = async (req, res) => {
     try {
@@ -205,6 +205,7 @@ const getAllRequests = async (req, res) => {
       });
     }
   };
+
   
 
 export  {addFarmer, updateFarmer, deleteFarmer, getAllFarmers, getAllRequests};

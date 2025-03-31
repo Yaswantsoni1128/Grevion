@@ -6,6 +6,10 @@ const requestSchema = new mongoose.Schema({
     ref: "PowerPlant",
     required: true,
   },
+  powerPlantName: {
+    type: String,
+    required : true,
+  },
   spocId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Spoc",
@@ -21,10 +25,15 @@ const requestSchema = new mongoose.Schema({
     min: 0,
     required: true
   },
+  totalPrice: {
+    type: Number,
+    min : 0,
+    required: true,
+  },
   status: {
     type: String,
-    enum: ['pending','accepted','rejected','completed'],
-    required: true
+    enum: ['pending','accepted','rejected'],
+    default: 'pending'
   },
   message: {
     type: String,

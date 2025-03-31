@@ -7,7 +7,7 @@ const farmerSchema = new mongoose.Schema({
   },
   email:{
     type:String,
-    required:true
+    required:true,
   },
   village: {
     type: String,

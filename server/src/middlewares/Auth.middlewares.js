@@ -68,6 +68,7 @@ const auth= async(req,res,next)=>{
 }
  const isPowerPlant= async(req,res,next)=>{
     try {
+        console.log(req.user);
         if(req.user.role!=="power_plant")
         {
             return res.status(401).json({

@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-import { Spoc, Farmer, Request, Order } from "../models/index.js";
-
+import { Spoc, Farmer, Request, Order, PowerPlant } from "../models/index.js";
+import mailSender from "../utils/MailSender.utils.js";
 const addFarmer = async (req, res) => {
     try {
         const userId = req.user.id; 
@@ -208,17 +208,15 @@ const getAllRequests = async (req, res) => {
   };
 
   
-
   const acceptRequest = async (req, res) => {
     try {
         const userId = req.user.id;  // This is the user ID
         const reqid = req.params.reqid; // Request ID from params
 
-        console.log("Received User ID:", userId);
-        console.log("Received Request ID:", reqid);
 
-        // Fetch the request
+        // Fetch the request and populate the powerPlant field
         let request = await Request.findById(reqid);
+
         if (!request) {
             return res.status(404).json({
                 success: false,
@@ -226,11 +224,10 @@ const getAllRequests = async (req, res) => {
             });
         }
 
+        console.log("Fetched Request:", request);
+
         // Fetch the SPOC linked to this user
         let spoc = await Spoc.findOne({ userId: userId }).select("totalParaliCollected");
-        
-        console.log("Fetched SPOC:", spoc);
-
         if (!spoc) {
             return res.status(404).json({
                 success: false,
@@ -255,12 +252,9 @@ const getAllRequests = async (req, res) => {
             },
             { new: true }
         );
-        
 
-        // Update request status to "accepted"
-        request = await Request.findByIdAndDelete(
-            reqid,
-        );
+        // Delete request
+        await Request.findByIdAndDelete(reqid);
 
         // Update order status
         const orderId = request.orderId;
@@ -269,11 +263,36 @@ const getAllRequests = async (req, res) => {
             { status: "accepted" },
             { new: true }
         );
+
+        // Fetch Power Plant email
+        const powerPlantId = request.powerPlantId;
+        console.log("power plant id",powerPlantId)
+        const powerPlant= await PowerPlant.findById(powerPlantId);
+        const powerPlantEmail=powerPlant.email;
+        console.log("Power Plant Email:", powerPlantEmail);
+
+        if (!powerPlantEmail) {
+            return res.status(400).json({
+                success: false,
+                message: "Power plant email not found"
+            });
+        }
+
+        // Send Email
+        const emailTitle = "Request Accepted - Parali Delivery Confirmation";
+        const emailBody = `
+            <p>Dear Sir,</p>
+            <p>Your request for <strong>${request.requestedParali} tons of parali</strong> has been accepted.</p>
+            <p>Please prepare for the pickup or further processing.</p>
+            <p>Regards,<br> Grevion Team</p>
+        `;
+
+        await mailSender(powerPlantEmail, emailTitle, emailBody);
+
         return res.status(200).json({
             success: true,
-            message: "Request accepted successfully",
+            message: "Request accepted successfully and email sent to power plant",
             updatedSpoc: spoc,
-            updatedRequest: request,
             updatedOrder: order
         });
 
@@ -322,6 +341,31 @@ const declineRequest= async(req,res)=>{
             },
             { new: true }
         );
+
+        const powerPlantId = request.powerPlantId;
+        console.log("power plant id",powerPlantId)
+        const powerPlant= await PowerPlant.findById(powerPlantId);
+        const powerPlantEmail=powerPlant.email;
+        console.log("Power Plant Email:", powerPlantEmail);
+
+        if (!powerPlantEmail) {
+            return res.status(400).json({
+                success: false,
+                message: "Power plant email not found"
+            });
+        }
+
+        // Send Email
+        const emailTitle = "Request Rejected - Parali Delivery Update";
+        const emailBody = `
+            <p>Dear Sir,</p>
+            <p>We regret to inform you that your request for <strong>${request.requestedParali} tons of parali</strong> has been rejected.</p>
+            <p>For further assistance or to place a new request, please contact our team.</p>
+            <p>Regards,<br> Grevion Team</p>
+        `;
+        
+
+        await mailSender(powerPlantEmail, emailTitle, emailBody);
         return res.status(200).json({
             success: true,
             message: "Request rejected successfully",

@@ -174,20 +174,37 @@ const deleteFarmer = async (req, res) => {
         })
     }
 }
-
-const uploadSpoc = async (req, res) => {
-    try{
-        const spocid = req.user.id;
-        // const [""]
-
+const getAllRequests = async (req, res) => {
+    try {
+      const userId = req.user.id;
+      const spoc = await Spoc.findOne({ userId }).populate({
+        path: "requests",
+        model: "Request", // Explicitly mention the model
+      });
+      
+  
+      if (!spoc) {
+        return res.status(404).json({
+          success: false,
+          message: "Spoc not found",
+        });
+      }
+  
+      console.log("Requests inside Spoc:", spoc.requests); // Debugging line
+  
+      return res.status(200).json({
+        success: true,
+        message: "All requests fetched successfully",
+        requests: spoc.requests,
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({
+        success: false,
+        message: "Error fetching requests",
+      });
     }
-    catch(error){
-        console.log("Error upload Spoc details: ", error);
-        return res.status(400).json({
-            success: false,
-            message: "spoc upload failed. Try again!"
-        })
-    }
-}
+  };
+  
 
-export  {addFarmer, updateFarmer, deleteFarmer, getAllFarmers};
+export  {addFarmer, updateFarmer, deleteFarmer, getAllFarmers, getAllRequests};

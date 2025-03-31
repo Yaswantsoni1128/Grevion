@@ -175,4 +175,19 @@ const deleteFarmer = async (req, res) => {
     }
 }
 
+const uploadSpoc = async (req, res) => {
+    try{
+        const spocid = req.user.id;
+        // const [""]
+
+    }
+    catch(error){
+        console.log("Error upload Spoc details: ", error);
+        return res.status(400).json({
+            success: false,
+            message: "spoc upload failed. Try again!"
+        })
+    }
+}
+
 export  {addFarmer, updateFarmer, deleteFarmer, getAllFarmers};

@@ -1,5 +1,5 @@
-
-import { Spoc, Farmer, User, PowerPlant, Request } from "../models/index.js";
+import mongoose from "mongoose";
+import { Spoc, Farmer, Request, Order } from "../models/index.js";
 
 const addFarmer = async (req, res) => {
     try {
@@ -208,52 +208,83 @@ const getAllRequests = async (req, res) => {
   };
 
   
-  const acceptRequest= async(req,res)=>{
-    try {
-        const id=req.user.id;
-        console.log()
-        const reqid=req.params.reqid;
-        let request= await Request.findById(reqid)
-        let spoc= await Spoc.findOne({id});
-        if(!spoc.totalParaliCollected>=request.requestedParali)
-        {
-            return res.status(400).json({
-                success:false,
-                message:"Insufficient quantity"
-            })
-        }
-        spoc=await Spoc.findOneAndUpdate({id},
-            {
-                $inc:{totalParaliCollected:-request.requestedParali}
-            },
-            {new:true}
-        );
-        
-        request=await Request.findByIdAndUpdate(reqid,
-            {
-                status:"accepted",
-            },
-            {new:true}
-        )
 
-        const orderId= request.orderId;
-        const Order= await Order.findByIdAndUpdate(orderId,
-            {
-                status:"accepted"
-            },
-            {new:true}
-        )
+  const acceptRequest = async (req, res) => {
+    try {
+        const userId = req.user.id;  // This is the user ID
+        const reqid = req.params.reqid; // Request ID from params
+
+        console.log("Received User ID:", userId);
+        console.log("Received Request ID:", reqid);
+
+        // Fetch the request
+        let request = await Request.findById(reqid);
+        if (!request) {
+            return res.status(404).json({
+                success: false,
+                message: "Request not found"
+            });
+        }
+
+        // Fetch the SPOC linked to this user
+        let spoc = await Spoc.findOne({ userId: userId }).select("totalParaliCollected");
+        
+        console.log("Fetched SPOC:", spoc);
+
+        if (!spoc) {
+            return res.status(404).json({
+                success: false,
+                message: "SPOC not found"
+            });
+        }
+
+        // Check if enough parali is available
+        if (spoc.totalParaliCollected < request.requestedParali) {
+            return res.status(400).json({
+                success: false,
+                message: "Insufficient quantity"
+            });
+        }
+
+        // Update Spoc's totalParaliCollected
+        spoc = await Spoc.findByIdAndUpdate(
+            spoc._id,
+            { $inc: { totalParaliCollected: -request.requestedParali } },
+            { new: true }
+        );
+
+        // Update request status to "accepted"
+        request = await Request.findByIdAndUpdate(
+            reqid,
+            { status: "accepted" },
+            { new: true }
+        );
+
+        // Update order status
+        const orderId = request.orderId;
+        const order = await Order.findByIdAndUpdate(
+            orderId,
+            { status: "accepted" },
+            { new: true }
+        );
+
         return res.status(200).json({
-            success:true,
-            message:"Request Accepted successfully"
-        })
+            success: true,
+            message: "Request accepted successfully",
+            updatedSpoc: spoc,
+            updatedRequest: request,
+            updatedOrder: order
+        });
+
     } catch (error) {
-        console.log(error);
+        console.error("Error accepting request:", error);
         return res.status(500).json({
-            success:false,
-            message:"Unable to accept request, please try again"
-        })
+            success: false,
+            message: "Unable to accept request, please try again"
+        });
     }
-  }
+};
+
+
 
 export  {addFarmer, updateFarmer, deleteFarmer, getAllFarmers, getAllRequests, acceptRequest};

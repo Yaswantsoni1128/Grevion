@@ -19,7 +19,7 @@ const spocSchema = new mongoose.Schema({
   totalParaliCollected: {
     type: Number,
     // required: true,
-    min: 0
+    default:0
   },
   requests: [{
     type: mongoose.Schema.Types.ObjectId,

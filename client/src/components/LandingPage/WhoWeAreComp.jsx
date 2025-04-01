@@ -1,0 +1,43 @@
+import React from 'react'
+import {FaArrowRight} from 'react-icons/fa'
+import { Link } from 'react-router-dom';
+
+function WhoWeAreComp() {
+    return (
+        <div className="flex flex-col md:flex-row items-center bg-white px-20 py-12 rounded-lg shadow-lg">
+          {/* Image Section */}
+          <div className="md:w-2/5 w-full">
+            <img 
+              src="https://img.freepik.com/free-photo/aerial-view-summer-harvest-combine-harvester-harvesting-large-field_661209-11.jpg?t=st=1743490625~exp=1743494225~hmac=6f4e58502c1a4b73fc86b2330d01c7da1712d291bae5041f873f679207e43717&w=1060" 
+              alt="Who We Are" 
+              className="rounded-lg"
+            />
+          </div>
+          
+          {/* Text Section */}
+          <div className="md:w-3/5 w-full py-6 px-20">
+            <h2 className="text-[2.4rem] font-bold text-gray-900 leading-snug">
+                Connecting Farmers & Buyers for a Sustainable Future
+            </h2>
+            <p className="text-gray-700 mt-6 text-lg pb-6 pr-10">
+                By leveraging technology, we bridge the gap between agricultural producers and industries 
+                that utilize parali for sustainable practices. Whether you are a farmer looking for 
+                a reliable buyer or a business seeking raw materials, Grevion ensures secure transactions, 
+                transparent pricing, and a hassle-free experience.
+            </p>
+
+            <button className=" bg-green-950 text-white px-4 py-2 rounded-full font-normal shadow-md hover:font-semibold hover:bg-green-900 text-[1.2rem] mr-1">
+                Know More
+            </button>
+            <Link to={"/landingPage/whoweare"}>
+                <button 
+                    className=" hover:bg-green-950 hover:text-white text-black border border-green-950 rounded-full font-medium hover:font-semibold bg-opacity-25  p-[0.7rem] text-[1.2rem] shadow-md"
+                    >
+                    <FaArrowRight/>
+                </button>
+            </Link>
+          </div>
+        </div>
+      );
+    }
+export default WhoWeAreComp

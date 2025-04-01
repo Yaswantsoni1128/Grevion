@@ -12,14 +12,14 @@ const SpocNavbar = () => {
 
   return (
     <div>
-      <nav className="w-full bg-green-950 text-white px-20 py-6 shadow-lg flex justify-between items-center">
-        <div className="w-auto container mx-auto flex justify-between space-x-8 text-lg font-semibold">
+      <nav className="w-full bg-green-950 text-white px-20 py-4 shadow-lg flex justify-between items-center">
+        <div className="w-auto container mx-auto flex justify-between space-x-8 text-md font-semibold">
           {navItems.map((item) => (
             <NavLink
               key={item.path}
               to={item.path}
               className={({ isActive }) =>
-                `hover:text-gray-200 transition-all duration-100 pb-2 ${
+                `relative after:absolute after:content-[''] after:w-full after:h-0.5 after:bg-gray-300 after:left-0 after:bottom-0 after:scale-x-0 after:transition-transform after:duration-300 hover:after:scale-x-100 ${
                   isActive ? "border-b-2 border-white" : ""
                 }`
               }

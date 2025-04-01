@@ -31,7 +31,7 @@ const Navbar = () => {
               to={item.path}
               key={idx}
               className={`relative after:absolute after:content-[''] after:w-full after:h-0.5 after:bg-gray-300 after:left-0 after:bottom-0 after:scale-x-0 after:transition-transform after:duration-300 hover:after:scale-x-100 ${
-                location.pathname === item.path ? "after:scale-x-100 font-semibold text-gray-300" : "hover:text-gray-300"
+                location.pathname === item.path ? item.path :""
               }`}
             >
               {item.content}

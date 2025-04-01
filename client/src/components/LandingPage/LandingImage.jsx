@@ -1,5 +1,6 @@
 import React from 'react'
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import { Link } from 'react-router-dom';
 
 function LandingImage() {
 
@@ -28,9 +29,11 @@ function LandingImage() {
               <button className="absolute top-0 left-0 bg-lime-300 text-gray-900 px-4 py-2 rounded-full font-medium shadow-lg hover:font-semibold hover:bg-lime-400 text-[1.2rem]">
                 Get Started
               </button>
-              <button className="absolute top-0 left-[8.6rem] hover:bg-lime-300 hover:text-gray-900 text-gray-200 rounded-full font-medium hover:font-semibold bg-opacity-25 bg-green-600 p-[0.7rem] text-[1.2rem]   shadow-md">
-                <FaArrowRight/>
-              </button>
+              <Link to={"/login"}>
+                <button className="absolute top-0 left-[8.6rem] hover:bg-lime-300 hover:text-gray-900 text-gray-200 rounded-full font-medium hover:font-semibold bg-opacity-25 bg-green-600 p-[0.7rem] text-[1.2rem]   shadow-md">
+                  <FaArrowRight/>
+                </button>
+              </Link>
 
               <div className="absolute bottom-0 right-0 flex space-x-2">
                 <button className="bg-lime-300 text-gray-900 rounded-full font-medium hover:font-semibold hover:bg-lime-400 shadow-md p-[0.7rem] text-[1.2rem]"><FaArrowLeft /></button>

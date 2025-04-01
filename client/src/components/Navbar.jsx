@@ -21,7 +21,9 @@ const Navbar = () => {
   return (
     <>
       <nav className="bg-green-950 px-20 py-4 flex items-center justify-between">
-        <h1 className="text-2xl font-bold cursor-pointer text-lime-400">Grevion</h1>
+        <Link to={"/"}>
+          <h1 className="text-2xl font-bold cursor-pointer text-lime-400">Grevion</h1>
+        </Link>
 
         <div className="hidden space-x-6 text-white md:flex">
           {navItems.map((item, idx) => (

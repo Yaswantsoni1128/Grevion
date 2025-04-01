@@ -9,7 +9,7 @@ const Navbar = () => {
   ]
 
   return (
-    <nav className="flex items-center justify-between px-10 py-4 bg-green-950">
+    <nav className="bg-green-950 px-20 py-4 flex items-center justify-between">
       <h1 className="text-2xl font-bold cursor-pointer text-lime-400">Grevion</h1>
       
       <div className="hidden space-x-6 text-white md:flex">
@@ -29,6 +29,8 @@ const Navbar = () => {
         </button>
       </div>
     </nav>
+    <hr className="border-green-900 opacity-99 shadow-sm"/>
+    </>
   );
 };
 

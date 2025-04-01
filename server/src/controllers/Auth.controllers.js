@@ -149,66 +149,64 @@ const signUp = async (req, res) => {
 };
 
 
- const login=async(req,res)=>{
+const login = async (req, res) => {
     try {
-        const {email,password}=req.body;
+        const { email, password } = req.body;
 
-        if(!email ||!password)
-        {
-            return res.status(404).json({
-                success:false,
-                message:"All fields are required"
-            })
-        }
-        const user= await User.findOne({email});
-        if(!user)
-        {
+        if (!email || !password) {
             return res.status(400).json({
-                success:false,
-                message:"User is not registered",
-            })
+                success: false,
+                message: "All fields are required",
+            });
         }
 
-        if(await bcrypt.compare(password,user.password))
-            {
-                const payload={
-                    email:user.email,
-                    id:user._id,
-                    role:user.role
-                }
-                const token= jwt.sign(payload,process.env.SECRET_KEY ,{
-                    expiresIn:"2h",
-                })
-                user.token=token;
-                user.password=undefined
-                const options={
-                    expires:new Date(Date.now()+3*24*60*60*1000),
-                    httpOnly:true,
-                }
-                res.cookie("token",token,options).status(200).json({
-                    success:true,
-                    message:"User Logged in successfully",
-                    token,
-                    user
-                })
-    
-            }else{
-                return res.status(400).json({
-                    success:false,
-                    message:"Incorrect Password"
-                })
-            }
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(400).json({
+                success: false,
+                message: "User is not registered",
+            });
+        }
 
+        if (await bcrypt.compare(password, user.password)) {
+            const payload = {
+                email: user.email,
+                id: user._id,
+                role: user.role,  // Include role
+            };
 
+            const token = jwt.sign(payload, process.env.SECRET_KEY, {
+                expiresIn: "2h",
+            });
 
+            user.token = token;
+            user.password = undefined;
 
+            const options = {
+                expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
+                httpOnly: true,
+            };
+
+            res.cookie("token", token, options).status(200).json({
+                success: true,
+                message: "User Logged in successfully",
+                token,
+                role: user.role,  // Explicitly return role
+                user,
+            });
+        } else {
+            return res.status(400).json({
+                success: false,
+                message: "Incorrect Password",
+            });
+        }
     } catch (error) {
         console.log(error);
         return res.status(500).json({
-            success:false,
-            message:"Unable to Login, Please try again"
-        })
+            success: false,
+            message: "Unable to Login, Please try again",
+        });
     }
-}
+};
 
 export {sendOtp,login,signUp}

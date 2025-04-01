@@ -12,7 +12,7 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
   const [location, setLocation] = useState("");
-  const [role, setRole] = useState("farmer");
+  const [role, setRole] = useState("");
    const navigate = useNavigate();
   
   const sendOtp = async () => {
@@ -75,7 +75,7 @@ const Signup = () => {
                   theme: "colored",
                 });
                 setTimeout(() => {
-                  navigate(`/${role.toLowerCase()}-dashboard`);
+                  navigate(`/${role.toLowerCase()}/dashboard`);
                 }, 1000);
       } else {
         toast.error("Signup failed: " + response.data.message, {
@@ -146,8 +146,8 @@ const Signup = () => {
                   onChange={(e) => setRole(e.target.value)}
                   className='w-full px-4 py-2 mt-1 border border-gray-300 outline-none rounded-xl focus:ring-2 focus:ring-green-400'
                 >
-                  <option value='spoc'>SPOC</option>
-                  <option value='powerplant'>Powerplant</option>
+                  <option value='spoc'>spoc</option>
+                  <option value='power_plant'>power_plant</option>
                 </select>
               </div>
               <div className='w-full'>

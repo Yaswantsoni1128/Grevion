@@ -23,8 +23,13 @@ import MakePayment from './pages/powerplant/MakePaymentPage.jsx';
 import MyOrdersPage from './pages/powerplant/MyOrdersPage.jsx';
 import SpocsListing from './pages/powerplant/SpocsListingPage.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
+import SpocNavbar from './pages/spoc/SpocNavbar.jsx';
+import SpocLayout from './pages/spoc/SpocLayout.jsx';
+import PowerPlantProfile from './pages/powerplant/PowerPlantProfile.jsx';
+import PowerPlantLayout from './pages/powerplant/PowerPlantLayout.jsx';
 
 const App = () => {
+
   return (
     <LoginContextProvider value={{}}>
       <Navbar />
@@ -41,18 +46,23 @@ const App = () => {
 
         {/* Protected Routes */}
         <Route path="/spoc/*" element={<ProtectedRoute />}>
-          <Route path="dashboard" element={<Spoc_dashboard />} />
-          <Route path="add-farmer" element={<AddFarmer />} />
-          <Route path="farmer-listing" element={<FarmerListing />} />
-          <Route path="paralis-request" element={<ParalisRequest />} />
-          <Route path="profile" element={<SpocProfile />} />
+          <Route element={<SpocLayout/>}> 
+            <Route path="dashboard" element={<Spoc_dashboard />} />
+            <Route path="add-farmer" element={<AddFarmer />} />
+            <Route path="farmer-listing" element={<FarmerListing />} />
+            <Route path="paralis-request" element={<ParalisRequest />} />
+            <Route path="profile" element={<SpocProfile />} />
+          </Route>
         </Route>
 
         <Route path="/powerplant/*" element={<ProtectedRoute />}>
-          <Route path="dashboard" element={<PowerplantDashboard />} />
-          <Route path="make-payment" element={<MakePayment />} />
-          <Route path="my-orders" element={<MyOrdersPage />} />
-          <Route path="spocs-listing" element={<SpocsListing />} />
+          <Route element={<PowerPlantLayout/>}>
+            <Route path="dashboard" element={<PowerplantDashboard />} />
+            <Route path="make-payment" element={<MakePayment />} />
+            <Route path="my-orders" element={<MyOrdersPage />} />
+            <Route path="spocs-listing" element={<SpocsListing />} />
+            <Route path="profile" element={<PowerPlantProfile />} />
+          </Route>
         </Route>
       </Routes>
       <Footer />

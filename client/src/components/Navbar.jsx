@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { MdDashboard, MdLogout } from "react-icons/md";
 
 const Navbar = () => {
   const location = useLocation();
@@ -10,6 +11,17 @@ const Navbar = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("role");
     navigate("/landingPage");
+  };
+
+  const navigateToDashboard = () => {
+    const userRole = localStorage.getItem("role");
+
+    if(userRole === "spoc"){
+      navigate("/spoc/dashboard")
+    }
+    else{
+      navigate("/powerplant/dashboard")
+    }
   };
 
   const navItems = [
@@ -30,7 +42,7 @@ const Navbar = () => {
             <Link
               to={item.path}
               key={idx}
-              className={`relative after:absolute after:content-[''] after:w-full after:h-0.5 after:bg-gray-300 after:left-0 after:bottom-0 after:scale-x-0 after:transition-transform after:duration-300 hover:after:scale-x-100 ${
+              className={`relative after:absolute after:content-[''] after:w-full after:h-0.5 after:bg-gray-300 after:left-0 after:bottom-0 after:scale-x-0 after:transition-transform after:duration-300 hover:after:scale-x-100 text-lg ${
                 location.pathname === item.path ? "after:scale-x-100 font-semibold text-gray-300" : "hover:text-gray-300"
               }`}
             >
@@ -40,12 +52,11 @@ const Navbar = () => {
         </div>
         <div className="flex items-center px-2 space-x-4">
           {isLoggedIn ? (
-            <button
-              onClick={handleLogout}
-              className="px-4 py-2 font-medium text-gray-900 rounded-full shadow-lg bg-lime-300 hover:font-semibold hover:bg-lime-400"
-            >
-              Logout
-            </button>
+            <div className="flex items-center justify-between gap-5">
+              <MdDashboard onClick={navigateToDashboard} className="text-lime-300 w-8 h-8 cursor-pointer hover:text-lime-400 shadow-lg" />
+              <MdLogout onClick={handleLogout} className="text-lime-300 w-6 h-6 hover:text-red-500 shadow-lg  cursor-pointer" />
+              
+            </div>
           ) : (
             <button className="px-4 py-2 font-medium text-gray-900 rounded-full shadow-lg bg-lime-300 hover:font-semibold hover:bg-lime-400">
               <Link to="/login">Get Started</Link>

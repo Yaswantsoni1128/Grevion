@@ -75,7 +75,7 @@ const Signup = () => {
                   theme: "colored",
                 });
                 setTimeout(() => {
-                  navigate("/dashboard");
+                  navigate(`/${role.toLowerCase()}-dashboard`);
                 }, 1000);
       } else {
         toast.error("Signup failed: " + response.data.message, {
@@ -146,7 +146,6 @@ const Signup = () => {
                   onChange={(e) => setRole(e.target.value)}
                   className='w-full px-4 py-2 mt-1 border border-gray-300 outline-none rounded-xl focus:ring-2 focus:ring-green-400'
                 >
-                  <option value='farmer'>Farmer</option>
                   <option value='spoc'>SPOC</option>
                   <option value='powerplant'>Powerplant</option>
                 </select>

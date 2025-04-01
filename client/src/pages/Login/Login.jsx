@@ -30,7 +30,13 @@ const Login = () => {
           theme: "colored",
         });
         setTimeout(() => {
-          navigate("/dashboard");
+          if(role === "spoc"){
+            navigate(`/spoc-dashboard`);
+          }
+          else{
+            navigate(`/powerplant-dashboard`);
+          }
+          
         }, 1000); // Redirect to dashboard or relevant page
       } else {
         toast.error("Login failed: " + response.data.message, {
@@ -82,7 +88,7 @@ const Login = () => {
                   onChange={(e) => setRole(e.target.value)}
                   className='w-full px-4 py-2 mt-1 border border-gray-300 outline-none rounded-xl focus:ring-2 focus:ring-green-400'
                 >
-                  <option value='farmer'>Login as Farmer</option>
+                  
                   <option value='spoc'>Login as SPOC</option>
                   <option value='powerplant'>Login as Powerplant</option>
                 </select>

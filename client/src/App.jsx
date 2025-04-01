@@ -52,10 +52,10 @@ const App = () => {
           <Route path="/spoc/profile" element={<SpocProfile />} />
 
           {/* Powerplant Routes */}
-          <Route path="/powerplant/dashboard" element={<PowerplantDashboard />} />
-          <Route path="/powerplant/make-payment" element={<MakePayment />} />
-          <Route path="/powerplant/my-orders" element={<MyOrdersPage />} />
-          <Route path="/powerplant/spocs-listing" element={<SpocsListing />} />
+          <Route path="/power_plant/dashboard" element={<PowerplantDashboard />} />
+          <Route path="/power_plant/make-payment" element={<MakePayment />} />
+          <Route path="/power_plant/my-orders" element={<MyOrdersPage />} />
+          <Route path="/power_plant/spocs-listing" element={<SpocsListing />} />
         
       </Routes>
       <Footer />

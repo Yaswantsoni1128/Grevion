@@ -20,7 +20,7 @@ function LandingImage() {
           <div className="relative mt-10">
             <div className="relative w-[90vw] mx-auto">
               <img
-                src="https://img.freepik.com/free-photo/shot-from-hayfield_181624-48477.jpg?ga=GA1.1.1353786300.1722677314&semt=ais_hybrid"
+                src="https://img.freepik.com/free-photo/3d-view-sun-sky-with-nature-landscape_23-2150953621.jpg?t=st=1743486587~exp=1743490187~hmac=5ece2e955454beab6bf3776af0020f31dcd12fa072e621ad4ee5d234c9264da6&w=1380"
                 alt="Energy Trading Visualization"
                 className="w-full h-[550px] object-cover rounded-md"
                 style={{ clipPath: "polygon(15% 0, 100% 0, 100% 23%, 100% 91%, 94% 91%, 91% 100%, 0 100%, 0% 70%, 0 10%, 12% 10%)" }}

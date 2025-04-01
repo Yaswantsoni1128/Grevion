@@ -6,6 +6,7 @@ import LandingPage from './pages/LandingPage/LandingPage'
 import Dashboard from './pages/Dashboard'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
+import Spoc_dashboard from './pages/Spoc_dashboard'
 
 const App = () => {
   return (
@@ -16,7 +17,8 @@ const App = () => {
         <Route path='/' element={<LandingPage/>} />
         <Route path='/login' element={<Login/>} />
         <Route path='/signup' element={<Signup/>} />
-        <Route path='/dashboard' element={<Dashboard/>} />
+        <Route path='/landingPage' element={<LandingPage/>} />
+        <Route path='/spoc_dashboard' element={<Spoc_dashboard/>}/>
       </Routes>
       <Footer/>
     </div>

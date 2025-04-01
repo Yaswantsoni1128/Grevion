@@ -3,7 +3,7 @@ import About_section_Card from "./About_section_Card";
 
 export default function AboutUsSection() {
   const cards = [
-    {btnText: "Grow" , details: "We are focusing on the empowerment of Agri" , img_url: "./farmer.jpg" , title:"Grow"},
+    {btnText: "Farmer" , details: "We are focusing on the empowerment of Agri" , img_url: "./farmer.jpg" , title:"Grow"},
     {btnText: "SPOC" , details: "We are focusing on the empowerment of agri" , img_url: "./spoc.jpg" , title:"Spoc"},
     {btnText: "Industry" , details: "We are focusing on the empowerment of agri" , img_url: "./powerplant.jpg" , title:"PowerPlant"}
   ]

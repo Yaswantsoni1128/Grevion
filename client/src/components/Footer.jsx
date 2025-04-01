@@ -35,7 +35,7 @@ export default function Footer() {
         </div>
 
         <div className="md:col-span-3 mt-8">
-          <h3 className="text-xl font-semibold">NEWSLATTER</h3>
+          <h3 className="text-xl font-semibold">NEWSLETTER</h3>
           <p className="mt-2 text-gray-400 text-[1rem] pb-4">Sign up to get updates and news.</p>
           <div className="flex flex-col mt-2">
             <input type="text" placeholder="Email Address" className="py-2 px-4 mb-4 bg-[#0e362d] opacity-90 text-gray-100 focus:outline-none focus:ring-2 focus:ring-lime-400 mr-2 rounded-full" />

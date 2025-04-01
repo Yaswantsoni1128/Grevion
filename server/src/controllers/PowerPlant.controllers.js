@@ -137,9 +137,9 @@ const placeOrder = async (req, res) => {
 
 const getAllOrders = async (req, res) =>{
     try{
-        const user_id = req.user.userId;
-        console.log("user id = ",user_id);
-        const pp = await PowerPlant.findOne({user_id}).populate({
+        const userId = req.user.id;
+        console.log("user id = ",userId);
+        const pp = await PowerPlant.findOne({userId}).populate({
             path: "orders",
             model: "Order"
         });
@@ -155,7 +155,7 @@ const getAllOrders = async (req, res) =>{
         res.status(200).json({
             success: true,
             message : "All orders fetched successfully",
-            orders: pp.orders|| []
+            orders: pp.orders
         })
 
 

@@ -4,7 +4,7 @@ import axios from "axios"
 import {toast , ToastContainer} from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css';
 
-const Signup = () => {
+const Signup =  () => {
   const [name, setName] = useState("");
   // const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -59,10 +59,20 @@ const Signup = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
+    
+    console.table([name,email,role,location,password,phone,otp])
+    
     try {
       const response = await axios.post("http://localhost:8000/api/v1/auth/signup", {
         name,  email, otp, password, role, phone, location
       });
+
+      const { token, role } = response.data;
+      
+      localStorage.setItem("token", token);
+      localStorage.setItem("role", role);
+
+
       if (response.data.success) {
          toast.success("Signup successful! You can now log in.", {
                   position: "top-right",
@@ -75,7 +85,13 @@ const Signup = () => {
                   theme: "colored",
                 });
                 setTimeout(() => {
-                  navigate(`/${role.toLowerCase()}/dashboard`);
+                  if (role === "spoc") {
+                    navigate("/spoc/dashboard");
+                  } else if (role === "power_plant") {
+                    navigate("/powerplant/dashboard");
+                  } else {
+                    navigate("/");
+                  }
                 }, 1000);
       } else {
         toast.error("Signup failed: " + response.data.message, {
@@ -110,7 +126,7 @@ const Signup = () => {
       <div className='flex items-center justify-center w-full h-screen'>
         <div className='flex items-center justify-center w-full h-[90%] '>
           <div className='items-center justify-center hidden w-1/2 h-full px-10 py-2 bg-white shadow-xl rounded-l-xl lg:flex'>
-            <img src="./signup_animation.gif" alt="" className='object-cover w-full h-full rounded-xl' />
+            <img src="./animation_signup.gif" alt="" className='object-cover w-full h-full rounded-xl' />
           </div>
           <div className='flex flex-col items-center w-full h-full px-10 py-3 bg-white shadow-r-xl md:w-1/3 rounded-r-xl'>
             <h2 className='mb-4 text-3xl font-bold text-gray-700'>Create Account</h2>
@@ -126,16 +142,6 @@ const Signup = () => {
                     className='w-full px-4 py-2 mt-1 border border-gray-300 outline-none rounded-xl focus:ring-2 focus:ring-green-400'
                   />
                 </div>
-                {/* <div className='w-1/2'>
-                  <label className='block font-medium text-gray-700 text-md'>Last Name</label>
-                  <input
-                    type='text'
-                    placeholder='Enter your last name'
-                    value={lastName}
-                    onChange={(e) => setLastName(e.target.value)}
-                    className='w-full px-4 py-2 mt-1 border border-gray-300 outline-none rounded-xl focus:ring-2 focus:ring-green-400'
-                  />
-                </div> */}
                 
               </div>
               <div className='flex items-center justify-between gap-2'>
@@ -143,11 +149,13 @@ const Signup = () => {
                 <label className='block text-lg font-medium text-gray-700'>Role</label>
                 <select
                   value={role}
-                  onChange={(e) => setRole(e.target.value)}
+                  onChange={(e) => {setRole(e.target.value)
+                    console.log(e.target.value)
+                  }}
                   className='w-full px-4 py-2 mt-1 border border-gray-300 outline-none rounded-xl focus:ring-2 focus:ring-green-400'
                 >
-                  <option value='spoc'>spoc</option>
-                  <option value='power_plant'>power_plant</option>
+                  <option value='spoc'>SPOC</option>
+                  <option value='power_plant'>Powerplant</option>
                 </select>
               </div>
               <div className='w-full'>

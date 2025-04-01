@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 
 const AddFarmerPage = () => {
   const [formData, setFormData] = useState({
@@ -8,19 +9,55 @@ const AddFarmerPage = () => {
     totalParali: "",
   });
 
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Farmer Data Submitted:", formData);
+    setLoading(true);
+    setMessage("");
+    setError("");
+
+    try {
+      const token = localStorage.getItem("token"); 
+
+      const response = await axios.post(
+        "http://localhost:8000/api/v1/spoc/addFarmer", 
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.data.success) {
+        setMessage("Farmer added successfully!");
+        setFormData({ name: "", phone: "", email: "", totalParali: "" }); // Reset form
+      } else {
+        setError(response.data.message || "Something went wrong.");
+      }
+    } catch (err) {
+      setError(err.response?.data?.message || "Failed to add farmer.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="min-h-screen bg-gray-100 flex justify-center items-center">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-lg">
         <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center">Add Farmer</h2>
+
+        {message && <p className="text-green-600 text-center">{message}</p>}
+        {error && <p className="text-red-600 text-center">{error}</p>}
+
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block text-gray-700">Name</label>
@@ -36,7 +73,7 @@ const AddFarmerPage = () => {
           <div>
             <label className="block text-gray-700">Phone</label>
             <input
-              type="tel"
+              type="text"
               name="phone"
               value={formData.phone}
               onChange={handleChange}
@@ -69,8 +106,9 @@ const AddFarmerPage = () => {
           <button
             type="submit"
             className="w-full bg-green-700 text-white py-2 rounded-lg hover:bg-green-800 transition duration-300"
+            disabled={loading}
           >
-            Submit
+            {loading ? "Submitting..." : "Submit"}
           </button>
         </form>
       </div>

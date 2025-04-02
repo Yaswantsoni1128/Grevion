@@ -93,7 +93,7 @@ const SpocListingPage = () => {
                   <td className="px-4 py-1 text-center">{spoc.name}</td>
                   <td className="px-4 py-1 text-center">{spoc.location}</td>
                   <td className="px-4 py-1 text-center">{spoc.totalParaliCollected} kg</td>
-                  <td className="px-4 py-1 text-center">{spoc.availableForSale ? "Yes" : "No"}</td>
+                  <td className="px-4 py-1 text-center ">{spoc.availableForSale && spoc.totalParaliCollected>0 ? "Yes" : "No"}</td>
                   <td className="px-4 py-1 text-center">
                     {spoc.availableForSale ? (
                       <button

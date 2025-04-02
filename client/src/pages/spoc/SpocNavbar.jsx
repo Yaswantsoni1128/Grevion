@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 
 const SpocNavbar = () => {
   const navItems = [
@@ -28,9 +28,11 @@ const SpocNavbar = () => {
             </NavLink>
           ))}
         </div>
-        <div className="w-[10%] flex justify-end items-center">
-          <img src="./bg_home.jpg" alt="profile_image" className="w-8 h-8 rounded-full"/>
-        </div>
+        <Link to={"/spoc/profile"}>
+          <div className="w-20 flex justify-end items-center">
+            <img src="https://plus.unsplash.com/premium_photo-1689568126014-06fea9d5d341?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cHJvZmlsZXxlbnwwfHwwfHx8MA%3D%3D" alt="profile_image" className="w-8 h-8 rounded-full"/>
+          </div>
+        </Link>
       </nav>
     </div>
   );

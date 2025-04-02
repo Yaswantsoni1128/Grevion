@@ -15,7 +15,7 @@ import Signup from './pages/Signup/Signup.jsx';
 import Spoc_dashboard from './pages/spoc/Spoc_dashboard.jsx';
 import AddFarmer from './pages/spoc/AddFarmerPage.jsx';
 import FarmerListing from './pages/spoc/FarmerListingPage.jsx';
-import ParalisRequest from './pages/spoc/ParalisRequestsPage.jsx';
+import ParalisRequest from './pages/spoc/OrderListingPage.jsx';
 import SpocProfile from './pages/spoc/SpocProfilePage.jsx';
 
 import PowerplantDashboard from './pages/powerplant/PowerplantDashboard.jsx';
@@ -27,6 +27,7 @@ import SpocNavbar from './pages/spoc/SpocNavbar.jsx';
 import SpocLayout from './pages/spoc/SpocLayout.jsx';
 import PowerPlantProfile from './pages/powerplant/PowerPlantProfile.jsx';
 import PowerPlantLayout from './pages/powerplant/PowerPlantLayout.jsx';
+import Faqs from './pages/LandingPage/FAQs.jsx';
 
 const App = () => {
 
@@ -43,6 +44,7 @@ const App = () => {
         <Route path="/landingPage/sustainability" element={<Sustainability />} />
         <Route path="/landingPage/whatwedo" element={<WhatWeDo />} />
         <Route path="/landingPage/whoweare" element={<WhoWeAre />} />
+        <Route path="/landingPage/faqs" element={<Faqs />} />
 
         {/* Protected Routes */}
         <Route path="/spoc/*" element={<ProtectedRoute />}>

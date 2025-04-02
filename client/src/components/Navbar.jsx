@@ -28,6 +28,7 @@ const Navbar = () => {
     { content: "Who we are?", path: "/landingPage/whoweare" },
     { content: "What we do?", path: "/landingPage/whatwedo" },
     { content: "Sustainability", path: "/landingPage/sustainability" },
+    { content: "FAQs", path: "/landingPage/faqs" },
   ];
 
   return (

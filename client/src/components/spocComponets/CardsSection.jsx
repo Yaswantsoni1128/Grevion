@@ -5,8 +5,9 @@ import { Link } from 'react-router-dom';
 function CardsSection() {
     return (
         <>
-        <h2 className="text-5xl font-semibold mt-6 mb-4 text-center">Dashboard Features</h2>
-        <div className="p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <h2 className="text-5xl font-bold mt-6 mb-4 text-center pt-10">Dashboard Features</h2>
+        <p className="text-center text-lg mb-6 px-44 text-gray-600">The SPOC dashboard provides a powerful suite of tools to enhance agricultural management. From farmer registrations to handling requests and monitoring data, every feature is designed for efficiency and ease of use. With an intuitive interface and real-time analytics, SPOCs can make informed decisions, streamline operations, and foster better communication between stakeholders. Explore the key functionalities below to optimize your workflow.</p>
+        <div className="px-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 pb-20 pt-10">
             
           <div className="bg-green-100 shadow-lg rounded-2xl p-4 text-center">
             <FaUserPlus className="text-green-700 text-4xl mb-4" />

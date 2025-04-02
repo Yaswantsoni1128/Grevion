@@ -15,7 +15,7 @@ const getAllSpoc = async (req,res)=>{
     return res.status(200).json({
       success: true,
       message: "All spoc fetched successfully",
-      data: allSpoc
+      spocs: allSpoc
     })
     
   } catch (error) {

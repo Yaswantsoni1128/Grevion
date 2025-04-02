@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import spocListingImg from "../../assets/spocListing.png"
+import spocListingImg from "../../assets/spocListing.png";
 
 const SpocListingPage = () => {
   const [spocs, setSpocs] = useState([]);
@@ -22,9 +22,12 @@ const SpocListingPage = () => {
     const fetchSpocs = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await axios.get("http://localhost:8000/api/v1/powerplant/getAllSpoc", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const response = await axios.get(
+          "http://localhost:8000/api/v1/powerplant/getAllSpoc",
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
         if (response.data.success) {
           setSpocs(response.data.spocs);
         } else {
@@ -70,78 +73,101 @@ const SpocListingPage = () => {
   return (
     <div className="relative flex flex-col items-center min-h-screen bg-gray-100">
       <div className="relative w-full">
-        <img src={spocListingImg} className="w-full h-80 brightness-50" alt="" />
-      <h2 className="mb-6 text-7xl font-extrabold text-white uppercase absolute text-center w-full top-52">Spoc Listing</h2>
+        <img
+          src={spocListingImg}
+          className="w-full h-60 sm:h-72 md:h-80 brightness-50 object-cover"
+          alt=""
+        />
+        <h2 className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold text-white uppercase text-center">
+          Spoc Listing
+        </h2>
       </div>
+
       <div className="w-full max-w-6xl p-10">
         {loading ? (
-          <p className="text-lg font-semibold text-center text-gray-600">Loading...</p>
+          <p className="text-lg font-semibold text-center text-gray-600">
+            Loading...
+          </p>
         ) : error ? (
-          <p className="text-lg font-semibold text-center text-red-600">{error}</p>
+          <p className="text-lg font-semibold text-center text-red-600">
+            {error}
+          </p>
         ) : (
-
-//           <table className="w-full border-collapse rounded-lg">
-//             <thead className="text-lg text-white bg-green-800">
-//               <tr>
-//                 <th>Name</th>
-//                 <th>Location</th>
-//                 <th>Total Parali</th>
-//                 <th>Available</th>
-//                 <th>Action</th>
-//               </tr>
-//             </thead>
-//             <tbody className="text-lg text-gray-700">
-//               {spocs.map((spoc) => (
-//                 <tr key={spoc._id} className="border-b hover:bg-green-100">
-//                   <td className="px-4 py-1 text-center">{spoc.name}</td>
-//                   <td className="px-4 py-1 text-center">{spoc.location}</td>
-//                   <td className="px-4 py-1 text-center">{spoc.totalParaliCollected} kg</td>
-//                   <td className="px-4 py-1 text-center ">{spoc.availableForSale && spoc.totalParaliCollected>0 ? "Yes" : "No"}</td>
-//                   <td className="px-4 py-1 text-center">
-//                     {spoc.availableForSale ? (
-//                       <button
-//                         onClick={() => handleOrderClick( spoc._id)}
-//                         className={`px-4 py-2 rounded ${orderStatus[spoc._id] ? 'bg-gray-500 cursor-not-allowed' : 'bg-blue-600 text-white hover:bg-blue-700'}`}
-//                         disabled={orderStatus[spoc._id]}
-//                       >
-//                         {orderStatus[spoc._id] || "Place Order"}
-//                       </button>
-//                     ) : (
-//                       <span className="text-red-600">Not Available</span>
-//                     )}
-//                   </td>
-//                 </tr>
-//               ))}
-//             </tbody>
-//           </table>
+          //           <table className="w-full border-collapse rounded-lg">
+          //             <thead className="text-lg text-white bg-green-800">
+          //               <tr>
+          //                 <th>Name</th>
+          //                 <th>Location</th>
+          //                 <th>Total Parali</th>
+          //                 <th>Available</th>
+          //                 <th>Action</th>
+          //               </tr>
+          //             </thead>
+          //             <tbody className="text-lg text-gray-700">
+          //               {spocs.map((spoc) => (
+          //                 <tr key={spoc._id} className="border-b hover:bg-green-100">
+          //                   <td className="px-4 py-1 text-center">{spoc.name}</td>
+          //                   <td className="px-4 py-1 text-center">{spoc.location}</td>
+          //                   <td className="px-4 py-1 text-center">{spoc.totalParaliCollected} kg</td>
+          //                   <td className="px-4 py-1 text-center ">{spoc.availableForSale && spoc.totalParaliCollected>0 ? "Yes" : "No"}</td>
+          //                   <td className="px-4 py-1 text-center">
+          //                     {spoc.availableForSale ? (
+          //                       <button
+          //                         onClick={() => handleOrderClick( spoc._id)}
+          //                         className={`px-4 py-2 rounded ${orderStatus[spoc._id] ? 'bg-gray-500 cursor-not-allowed' : 'bg-blue-600 text-white hover:bg-blue-700'}`}
+          //                         disabled={orderStatus[spoc._id]}
+          //                       >
+          //                         {orderStatus[spoc._id] || "Place Order"}
+          //                       </button>
+          //                     ) : (
+          //                       <span className="text-red-600">Not Available</span>
+          //                     )}
+          //                   </td>
+          //                 </tr>
+          //               ))}
+          //             </tbody>
+          //           </table>
 
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {spocs.map((spoc) => (
-              <div key={spoc._id} className="flex flex-col items-center relative">
-
+              <div
+                key={spoc._id}
+                className="relative w-80 transform transition duration-300 hover:scale-105"
+              >
+                {/* clipPath: "polygon(100% 0, 100% 83%, 70% 83%, 63% 100%, 0 98%, 0 0)", */}
                 <div
-                  className="relative p-6 bg-white rounded-xl   w-80 h-56 flex flex-col gap-4"
+                  className="relative flex flex-col gap-1 justify-center bg-white rounded-xl p-6 w-72 h-48 sm:w-80 sm:h-48 "
                   style={{
-                    clipPath: "polygon(100% 0, 100% 83%, 70% 83%, 63% 100%, 0 98%, 0 0)",
-                    paddingBottom: "40px",
+                    clipPath:
+                      "polygon(100% 0, 100% 83%, 70% 83%, 63% 100%, 0 98%, 0 0)",
                   }}
                 >
-                  <h3 className="text-2xl font-semibold text-gray-800">{spoc.name}</h3>
-                  <p className="text-gray-600 text-lg">Location: {spoc.location}</p>
-                  <p className="text-gray-600 text-lg">Total Parali: {spoc.totalParaliCollected} kg</p>
+                  <h3 className="text-2xl font-semibold text-gray-800">
+                    {spoc.name}
+                  </h3>
+                  <p className="text-gray-600 text-lg">
+                    Location: {spoc.location}
+                  </p>
+                  <p className="text-gray-600 text-lg">
+                    Total Parali: {spoc.totalParaliCollected} kg
+                  </p>
                   <p
-                    className={`font-semibold text-xl ${spoc.availableForSale ? "text-green-600" : "text-red-600"}`}
+                    className={`font-semibold text-xl ${
+                      spoc.availableForSale ? "text-green-600" : "text-red-600"
+                    }`}
                   >
-                     {spoc.availableForSale ? "Available" : "Not Available"}
+                    {spoc.availableForSale ? "Available" : "Not Available"}
                   </p>
                 </div>
+
+                {/* Button at Bottom Right */}
                 {spoc.availableForSale && (
                   <button
                     onClick={() => handleOrderClick(spoc._id)}
-                    className={`mt-3 px-2 py-1 h-8  rounded-xl  absolute text-sm top-[11.25rem] left-[14.5rem] ${
+                    className={`" text-white rounded-xl p-1 w-[5.5rem] sm:w-[6.5rem] absolute -bottom-0 right-8 sm:-bottom-1 sm:-right-1 shadow-lg  text-sm sm:text-md" ${
                       orderStatus[spoc._id]
                         ? "bg-green-800 text-white cursor-not-allowed"
-                        : "bg-amber-600 text-white "
+                        : "bg-amber-600 text-white"
                     }`}
                     disabled={orderStatus[spoc._id]}
                   >
@@ -158,17 +184,58 @@ const SpocListingPage = () => {
         <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
           <div className="p-6 bg-white rounded-lg shadow-lg w-96">
             <h2 className="mb-4 text-xl font-bold">Place Order</h2>
-            <input type="text" name="requestedParali" placeholder="Requested Parali" className="w-full p-2 mb-2 border rounded" onChange={handleChange} />
-            <input type="text" name="offeredPricePerTon" placeholder="Offered Price per Ton" className="w-full p-2 mb-2 border rounded" onChange={handleChange} />
-            <input type="text" name="totalPrice" placeholder="Total Price" className="w-full p-2 mb-2 border rounded" onChange={handleChange} />
-            <input type="text" name="deliverWithin" placeholder="Deliver Within" className="w-full p-2 mb-2 border rounded" onChange={handleChange} />
-            <input type="text" name="location" placeholder="Location" className="w-full p-2 mb-2 border rounded" onChange={handleChange} />
-            <textarea name="message" placeholder="Message" className="w-full p-2 mb-2 border rounded" onChange={handleChange}></textarea>
+            <input
+              type="text"
+              name="requestedParali"
+              placeholder="Requested Parali"
+              className="w-full p-2 mb-2 border rounded"
+              onChange={handleChange}
+            />
+            <input
+              type="text"
+              name="offeredPricePerTon"
+              placeholder="Offered Price per Ton"
+              className="w-full p-2 mb-2 border rounded"
+              onChange={handleChange}
+            />
+            <input
+              type="text"
+              name="totalPrice"
+              placeholder="Total Price"
+              className="w-full p-2 mb-2 border rounded"
+              onChange={handleChange}
+            />
+            <input
+              type="text"
+              name="deliverWithin"
+              placeholder="Deliver Within"
+              className="w-full p-2 mb-2 border rounded"
+              onChange={handleChange}
+            />
+            <input
+              type="text"
+              name="location"
+              placeholder="Location"
+              className="w-full p-2 mb-2 border rounded"
+              onChange={handleChange}
+            />
+            <textarea
+              name="message"
+              placeholder="Message"
+              className="w-full p-2 mb-2 border rounded"
+              onChange={handleChange}
+            ></textarea>
             <div className="flex justify-end">
-              <button className="px-4 py-2 mr-2 text-white bg-gray-400 rounded" onClick={() => setShowModal(false)}>
+              <button
+                className="px-4 py-2 mr-2 text-white bg-gray-400 rounded"
+                onClick={() => setShowModal(false)}
+              >
                 Cancel
               </button>
-              <button className="px-4 py-2 text-white bg-green-800 rounded" onClick={handleSubmit}>
+              <button
+                className="px-4 py-2 text-white bg-green-800 rounded"
+                onClick={handleSubmit}
+              >
                 Submit
               </button>
             </div>

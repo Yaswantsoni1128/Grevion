@@ -43,21 +43,21 @@ function LandingImage() {
           </div>
 
         {/* companies  */}
-        <div className="bg-green-950 text-gray-100 pt-10 px-4 flex justify-center flex-col items-center w-[90vw]">
-            <h2 className="text-lg md:text-xl font-light">
-              Connecting the world’s <span className="text-lime-400 font-semibold">Greatest Companies</span> to their Customers.
-            </h2>
-            <div className="flex justify-center items-center gap-20 mt-4 flex-wrap">
-              {companies.map((company, index) => (
-                <span
-                  key={index}
-                  className={`text-white text-[1.3rem] md:text-xl font-semibold ${company.highlighted ? "text-white" :"opacity-50"}`}
-                >
-                  {company.name}
-                </span>
-              ))}
+        <div className="text-center pt-10 w-full max-w-7xl">
+                <h2 className="text-lg sm:text-xl font-light">
+                    Connecting the world’s <span className="text-lime-400 font-semibold">Greatest Companies</span> to their Customers.
+                </h2>
+                <div className="flex justify-center items-center gap-6 flex-wrap mt-4 px-4">
+                    {companies.map((company, index) => (
+                        <span
+                            key={index}
+                            className={`text-white text-sm sm:text-lg font-semibold ${company.highlighted ? 'text-white' : 'opacity-50'}`}
+                        >
+                            {company.name}
+                        </span>
+                    ))}
+                </div>
             </div>
-        </div>
     </div>
     );
 };

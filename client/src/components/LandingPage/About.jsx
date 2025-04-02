@@ -10,23 +10,27 @@ export default function AboutUsSection() {
   return (
     <div className="bg-white py-12 px-20 text-black flex flex-col relative">
       
-      <div className="max-w-4xl ">
-        <button className="bg-lime-300 px-3 py-1 rounded-full text-lg font-semibold -rotate-12">About Us</button>
-        <h2 className="text-5xl font-bold mt-4 mb-8">
-        Sustainable Crop Residue Management
+      <div className="max-w-4xl text-center sm:text-left">
+        <button className="bg-lime-300 px-3 py-1 rounded-full text-lg font-semibold">About Us</button>
+        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mt-4 mb-6">
+          Sustainable Crop Residue Management
         </h2>
-        <p className="text-gray-600 mt-2 text-lg ">
-        Connects farmers with industries for residue utilization, turning waste into a valuable resource.</p>
-        <p className="text-gray-600 mt-2 w-1/2 text-lg">Provides eco-friendly alternatives to burning, such as composting and biofuel production.</p>
+        <p className="text-gray-600 mt-2 text-base sm:text-lg">
+          Connects farmers with industries for residue utilization, turning waste into a valuable resource.
+        </p>
+        <p className="text-gray-600 mt-2 text-base sm:text-lg lg:w-2/3">
+          Provides eco-friendly alternatives to burning, such as composting and biofuel production.
+        </p>
       </div>
 
-      <div className="mt-8 flex flex-col md:flex-row gap-6 max-w-5xl absolute right-[15rem] top-[3rem]">
+      <div className="mt-8 flex flex-col md:flex-row gap-6 max-w-5xl absolute right-[8rem] top-[3rem]">
         <img
           src="/parali.jpeg"
           alt="Agriculture Drone"
-          className="w-48 h-48 object-cover rounded-lg shadow-lg md:order-last -rotate-12"
+          className="hidden xl:block w-48 h-48 object-cover rounded-lg shadow-lg md:order-last -rotate-12"
         />
       </div>
+
 
       {/* cards  */}
       <div>

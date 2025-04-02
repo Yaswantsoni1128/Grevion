@@ -39,20 +39,20 @@ const FAQs = () => {
   };
 
   return (
-    <div className="px-20 pt-16 pb-32 bg-gray-100 flex justify-center items-start gap-10">
-        <div className="w-1/3">
-            <h2 className="text-5xl font-bold mb-4">Frequently Asked Questions</h2>
+    <div className="px-6 md:px-20 pt-16 pb-32 bg-gray-100 flex flex-col md:flex-row justify-center items-start gap-10">
+        <div className="md:w-1/3 w-full text-center md:text-left">
+            <h2 className="text-3xl md:text-5xl font-bold mb-4">Frequently Asked Questions</h2>
             <p className="text-gray-600 mb-8">For any unanswered questions, reach out to our support team via email. We'll respond as soon as possible to assist you.</p>
         </div>
-        <div className="space-y-4 w-2/3">
+        <div className="space-y-4 md:w-2/3 w-full">
             {faqs.map((faq, index) => (
-              <div key={index} className=" border-b p-4  cursor-pointer">
+              <div key={index} className="border-b p-4 cursor-pointer">
                 <div onClick={() => toggleFAQ(index)} className="flex justify-between items-center">
-                  <h3 className="text-xl font-medium">{faq.question}</h3>
-                  <span>{activeIndex === index ? "-" : "+"}</span>
+                  <h3 className="text-lg md:text-xl font-medium">{faq.question}</h3>
+                  <span className="text-xl md:text-2xl">{activeIndex === index ? "−" : "+"}</span>
                 </div>
                 {activeIndex === index && (
-                  <p className="mt-2 text-gray-600">{faq.answer}</p>
+                  <p className="mt-2 text-gray-600 text-sm md:text-base">{faq.answer}</p>
                 )}
               </div>
             ))}

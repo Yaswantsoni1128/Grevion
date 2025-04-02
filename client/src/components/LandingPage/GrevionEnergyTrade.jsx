@@ -6,14 +6,14 @@ const GrevionEnergyTrade = () => {
   return (
     <div className="bg-green-950 text-white pt-10 px-20 relative flex flex-col items-start mx-auto shadow-lg">
       <div className="w-[100%] md:w-[70%]">
-        <p className="bg-green-800 inline-block bg-opacity-25 rounded-full px-3 ml-2 -rotate-6 mb-3">
+        <p className="bg-green-800 inline-block bg-opacity-25 rounded-full px-3 ml-2 mb-3">
             <span className="text-[#c1f846] rounded-md px-2">
                 Grevion Solutions
             </span>
         </p>
         <h1 className="text-5xl font-bold leading-tight">
             Revolutionizing Energy Trading with Paralis:
-            <p className="bg-green-800 inline-block bg-opacity-25 rounded-full px-3 ml-2 rotate-3 mb-3">
+            <p className="bg-green-800 inline-block bg-opacity-25 rounded-full px-3 ml-2 mb-3">
                 <span className=" text-[#c1f846] rounded-md px-2 ">Innovation</span>
             </p>
             

@@ -28,6 +28,10 @@ import SpocLayout from './pages/spoc/SpocLayout.jsx';
 import PowerPlantProfile from './pages/powerplant/PowerPlantProfile.jsx';
 import PowerPlantLayout from './pages/powerplant/PowerPlantLayout.jsx';
 import Faqs from './pages/LandingPage/FAQs.jsx';
+import AboutUsPage from './pages/AboutUsPage.jsx';
+import OurServices from './pages/OurServices.jsx';
+import ContactUs from './pages/ContactUs.jsx';
+import Blog from './pages/Blog.jsx';
 
 const App = () => {
 
@@ -66,6 +70,12 @@ const App = () => {
             <Route path="profile" element={<PowerPlantProfile />} />
           </Route>
         </Route>
+
+        {/* Footer routes  */}
+        <Route path='/about-us' element={<AboutUsPage/>}/>
+        <Route path='/our-sevices' element={<OurServices/>}/>
+        <Route path='/contact-us' element={<ContactUs/>}/>
+        <Route path='/blog' element={<Blog/>}/>
       </Routes>
       <Footer />
     </LoginContextProvider>

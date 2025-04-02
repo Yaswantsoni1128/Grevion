@@ -1,45 +1,97 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { FaEdit } from "react-icons/fa";
 
 function ParaliInfo() {
-  const [paraliData, setParaliData] = useState({
-    totalCollected: "500 Tons",
-    pricePerTon: "\u20B92000",
-    registeredFarmers: "120",
-    pendingRequests: "15",
-    lastUpdated: "March 2025",
-  });
+  const [userInfo, setUserInfo] = useState(null);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const fetchUser = async () => {
+    try {
+      setLoading(true);
+      setError(""); // Reset error state
+
+      const token = localStorage.getItem("token");
+      const userId = localStorage.getItem("userId");
+
+      if (!userId) {
+        setError("User ID not found.");
+        return;
+      }
+
+      const response = await axios.get(
+        `http://localhost:8000/api/v1/users/getUserProfile/${userId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      console.log(response.data.user)
+      if (response.data.success) {
+        setUserInfo(response.data.user);
+      } else {
+        setError("Error fetching user data");
+      }
+    } catch (error) {
+      setError("Unable to fetch user details.");
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
 
   return (
-    <div className="bg-gray-50 border-2 border-gray-400 border-opacity-30 rounded-md p-6 w-1/4 max-w-2xl ml-20 pb-10 mb-20">
-      <div className="flex justify-between items-center border-b border-gray-300 pb-4">
+    <div className="w-1/4 max-w-2xl p-6 pb-10 mb-20 ml-20 border-2 border-gray-400 rounded-md bg-gray-50 border-opacity-30">
+      <div className="flex items-center justify-between pb-4 border-b border-gray-300">
         <h2 className="text-lg font-semibold">Parali Collection Info</h2>
         <button className="flex items-center text-green-800 hover:text-green-600">
           <FaEdit className="mr-2" /> Edit
         </button>
       </div>
-      <div className="grid gap-y-4 mt-4 text-gray-700">
-        <div className="flex justify-between">
-          <p className="text-md text-black font-semibold">Total Parali Collected:</p>
-          <p>{paraliData.totalCollected}</p>
+
+      {/* Show loading spinner */}
+      {loading && (
+        <div className="flex items-center justify-center mt-4">
+          <div className="w-6 h-6 border-4 border-blue-500 rounded-full border-t-transparent animate-spin"></div>
         </div>
-        <div className="flex justify-between">
-          <p className="text-md text-black font-semibold">Price Per Ton:</p>
-          <p>{paraliData.pricePerTon}</p>
+      )}
+
+      {/* Show error message */}
+      {error && (
+        <p className="p-3 mt-4 text-sm text-red-600 bg-red-100 border border-red-400 rounded-md">
+          {error}
+        </p>
+      )}
+
+      {/* Show data only if userInfo is available and no errors */}
+      {!loading && !error && userInfo && (
+        <div className="grid mt-4 text-gray-700 gap-y-4">
+          <div className="flex justify-between">
+            <p className="font-semibold text-black text-md">Total Parali Collected:</p>
+            <p>{userInfo?.totalParaliCollected || 0}</p>
+          </div>
+          <div className="flex justify-between">
+            <p className="font-semibold text-black text-md">Available For Sale:</p>
+            <p>{userInfo?.availableForSale ? "Yes" : "No"}</p>
+          </div>
+          <div className="flex justify-between">
+            <p className="font-semibold text-black text-md">Registered Farmers:</p>
+            <p>{userInfo?.farmers?.length || 0}</p>
+          </div>
+          <div className="flex justify-between">
+            <p className="font-semibold text-black text-md">Pending Requests:</p>
+            <p>{userInfo?.requests?.length || 0}</p>
+          </div>
+          <div className="flex justify-between">
+            <p className="font-semibold text-black text-md">Last Updated:</p>
+            <p>{userInfo?.updatedAt ? new Date(userInfo.updatedAt).toLocaleString() : "N/A"}</p>
+          </div>
         </div>
-        <div className="flex justify-between">
-          <p className="text-md text-black font-semibold">Registered Farmers:</p>
-          <p>{paraliData.registeredFarmers}</p>
-        </div>
-        <div className="flex justify-between">
-          <p className="text-md text-black font-semibold">Pending Requests:</p>
-          <p>{paraliData.pendingRequests}</p>
-        </div>
-        <div className="flex justify-between">
-          <p className="text-md text-black font-semibold">Last Updated:</p>
-          <p>{paraliData.lastUpdated}</p>
-        </div>
-      </div>
+      )}
     </div>
   );
 }

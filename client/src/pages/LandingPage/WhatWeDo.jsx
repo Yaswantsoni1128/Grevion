@@ -4,7 +4,7 @@ function WhatWeDo() {
   return (
     <section className="bg-white py-16 px-6 md:px-12 lg:px-24 text-gray-800">
       <div className="max-w-6xl mx-auto text-center">
-        <h2 className="text-4xl font-bold text-gray-900 mb-6">What We Do</h2>
+        <h2 className="text-4xl font-bold text-gray-900 mb-6">What We Do?</h2>
         <p className="text-lg leading-relaxed text-gray-700 max-w-3xl mx-auto">
           <span className="font-semibold text-gray-900">Grevion</span> simplifies energy trading by providing an innovative
           platform that connects SPOCs and power plants. Our technology-driven approach

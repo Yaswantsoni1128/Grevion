@@ -4,7 +4,7 @@ function WhoWeAre() {
   return (
     <section className="bg-gray-100 py-16 px-6 md:px-12 lg:px-24 text-gray-800">
       <div className="max-w-6xl mx-auto text-center">
-        <h2 className="text-4xl font-bold text-gray-900 mb-6">Who We Are</h2>
+        <h2 className="text-4xl font-bold text-gray-900 mb-6">Who We Are?</h2>
         <p className="text-lg leading-relaxed text-gray-700 max-w-3xl mx-auto">
           <span className="font-semibold text-gray-900">Grevion</span> is a web platform that connects
           SPOCs (Single Point of Contact) and power plants to facilitate the buying and

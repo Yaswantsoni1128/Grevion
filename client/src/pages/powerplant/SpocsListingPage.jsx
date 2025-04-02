@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import spocListingImg from "../../assets/spocListing.png"
 
 const SpocListingPage = () => {
   const [spocs, setSpocs] = useState([]);
@@ -22,9 +23,7 @@ const SpocListingPage = () => {
       try {
         const token = localStorage.getItem("token");
         const response = await axios.get("http://localhost:8000/api/v1/powerplant/getAllSpoc", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         });
         if (response.data.success) {
           setSpocs(response.data.spocs);
@@ -41,7 +40,7 @@ const SpocListingPage = () => {
     fetchSpocs();
   }, []);
 
-  const handleOrderClick = ( spocId) => {
+  const handleOrderClick = (spocId) => {
     setSelectedSpocId(spocId);
     setShowModal(true);
   };
@@ -53,11 +52,11 @@ const SpocListingPage = () => {
   const handleSubmit = async () => {
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.post(`http://localhost:8000/api/v1/powerplant/placeOrder/${selectedSpocId}`, formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      await axios.post(
+        `http://localhost:8000/api/v1/powerplant/placeOrder/${selectedSpocId}`,
+        formData,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
       setOrderStatus((prevStatus) => ({
         ...prevStatus,
         [selectedSpocId]: "Order Placed",
@@ -69,48 +68,52 @@ const SpocListingPage = () => {
   };
 
   return (
-    <div className="relative flex flex-col items-center min-h-screen p-10">
-      <h2 className="mb-6 text-4xl font-extrabold text-gray-800">Spoc Listing</h2>
-      <div className="w-full p-6 overflow-x-auto bg-white shadow-2xl rounded-xl">
+    <div className="relative flex flex-col items-center min-h-screen bg-gray-100">
+      <div className="relative w-full">
+        <img src={spocListingImg} className="w-full h-80 brightness-50" alt="" />
+      <h2 className="mb-6 text-7xl font-extrabold text-white uppercase absolute text-center w-full top-52">Spoc Listing</h2>
+      </div>
+      <div className="w-full max-w-6xl p-10">
         {loading ? (
-          <p className="font-semibold text-center text-gray-600">Loading...</p>
+          <p className="text-lg font-semibold text-center text-gray-600">Loading...</p>
         ) : error ? (
-          <p className="font-semibold text-center text-red-600">{error}</p>
+          <p className="text-lg font-semibold text-center text-red-600">{error}</p>
         ) : (
-          <table className="w-full border-collapse rounded-lg">
-            <thead className="text-lg text-white bg-green-800">
-              <tr>
-                <th>Name</th>
-                <th>Location</th>
-                <th>Total Parali</th>
-                <th>Available</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody className="text-lg text-gray-700">
-              {spocs.map((spoc) => (
-                <tr key={spoc._id} className="border-b hover:bg-green-100">
-                  <td className="px-4 py-1 text-center">{spoc.name}</td>
-                  <td className="px-4 py-1 text-center">{spoc.location}</td>
-                  <td className="px-4 py-1 text-center">{spoc.totalParaliCollected} kg</td>
-                  <td className="px-4 py-1 text-center">{spoc.availableForSale ? "Yes" : "No"}</td>
-                  <td className="px-4 py-1 text-center">
-                    {spoc.availableForSale ? (
-                      <button
-                        onClick={() => handleOrderClick( spoc._id)}
-                        className={`px-4 py-2 rounded ${orderStatus[spoc._id] ? 'bg-gray-500 cursor-not-allowed' : 'bg-blue-600 text-white hover:bg-blue-700'}`}
-                        disabled={orderStatus[spoc._id]}
-                      >
-                        {orderStatus[spoc._id] || "Place Order"}
-                      </button>
-                    ) : (
-                      <span className="text-red-600">Not Available</span>
-                    )}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            {spocs.map((spoc) => (
+              <div key={spoc._id} className="flex flex-col items-center relative">
+                <div
+                  className="relative p-6 bg-white rounded-xl   w-80 h-56 flex flex-col gap-4"
+                  style={{
+                    clipPath: "polygon(100% 0, 100% 83%, 70% 83%, 63% 100%, 0 98%, 0 0)",
+                    paddingBottom: "40px",
+                  }}
+                >
+                  <h3 className="text-2xl font-semibold text-gray-800">{spoc.name}</h3>
+                  <p className="text-gray-600 text-lg">Location: {spoc.location}</p>
+                  <p className="text-gray-600 text-lg">Total Parali: {spoc.totalParaliCollected} kg</p>
+                  <p
+                    className={`font-semibold text-xl ${spoc.availableForSale ? "text-green-600" : "text-red-600"}`}
+                  >
+                     {spoc.availableForSale ? "Available" : "Not Available"}
+                  </p>
+                </div>
+                {spoc.availableForSale && (
+                  <button
+                    onClick={() => handleOrderClick(spoc._id)}
+                    className={`mt-3 px-2 py-1 h-8  rounded-xl  absolute text-md top-[11.25rem] left-[14.5rem] ${
+                      orderStatus[spoc._id]
+                        ? "bg-gray-500 cursor-not-allowed"
+                        : "bg-green-800 text-white hover:bg-green-900"
+                    }`}
+                    disabled={orderStatus[spoc._id]}
+                  >
+                    {orderStatus[spoc._id] || "Place Order"}
+                  </button>
+                )}
+              </div>
+            ))}
+          </div>
         )}
       </div>
 
@@ -125,8 +128,12 @@ const SpocListingPage = () => {
             <input type="text" name="location" placeholder="Location" className="w-full p-2 mb-2 border rounded" onChange={handleChange} />
             <textarea name="message" placeholder="Message" className="w-full p-2 mb-2 border rounded" onChange={handleChange}></textarea>
             <div className="flex justify-end">
-              <button className="px-4 py-2 mr-2 text-white bg-gray-400 rounded" onClick={() => setShowModal(false)}>Cancel</button>
-              <button className="px-4 py-2 text-white bg-blue-600 rounded" onClick={handleSubmit}>Submit</button>
+              <button className="px-4 py-2 mr-2 text-white bg-gray-400 rounded" onClick={() => setShowModal(false)}>
+                Cancel
+              </button>
+              <button className="px-4 py-2 text-white bg-green-800 rounded" onClick={handleSubmit}>
+                Submit
+              </button>
             </div>
           </div>
         </div>

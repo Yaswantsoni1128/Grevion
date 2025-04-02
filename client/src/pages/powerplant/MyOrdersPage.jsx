@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import OrderCard from '../../components/OrderCard';
-import ordersImg from "../../assets/orders.jpg"
+import ordersImg from "../../assets/orders.jpg";
+
 const MyOrdersPage = () => {
-  const [orders, setOrders] = useState([]);  // Ensure it's an array
+  const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -15,21 +15,14 @@ const MyOrdersPage = () => {
         setLoading(false);
         return;
       }
-    
+      
       try {
         const response = await axios.get('http://localhost:8000/api/v1/powerplant/getAllOrders', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         });
-    
-        console.log('Response Data:', response.data); 
-        if (Array.isArray(response.data.orders)) {
-          setOrders(response.data.orders); 
-        } else {
-          setOrders([]);
-        }
-    
+        
+        console.log('Response Data:', response.data);
+        setOrders(Array.isArray(response.data.orders) ? response.data.orders : []);
         setLoading(false);
       } catch (error) {
         setLoading(false);
@@ -50,37 +43,52 @@ const MyOrdersPage = () => {
   }, []);
 
   return (
-    <div className='flex flex-col gap-10  items-center'>
+    <div className='flex flex-col gap-10 items-center bg-gray-100'>
       <div className='relative w-full'>
-
-        <img src={ordersImg} className='h-80 w-screen brightness-75' alt="" />
-        <h1 className=' text-7xl font-bold absolute top-52 text-white text-center flex items-center w-full uppercase'><p className='w-full '>My Orders</p></h1>
+        <img src={ordersImg} className='h-80 w-screen brightness-75' alt="Orders" />
+        <h1 className='text-7xl font-bold absolute top-52 text-white text-center w-full uppercase'>My Orders</h1>
       </div>
+      
       {loading ? (
-        <p>Loading orders...</p>
+        <p className='text-lg font-semibold text-gray-600'>Loading orders...</p>
       ) : error ? (
-        <p style={{ color: 'red' }}>{error}</p>
+        <p className='text-lg font-semibold text-red-600'>{error}</p>
       ) : (
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "35px" }} >
+        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-4'>
           {orders.length === 0 ? (
-            <p>No orders found.</p>
+            <p className='text-lg font-semibold text-gray-600'>No orders found.</p>
           ) : (
-            orders.map((order, index) => (
-              <div className='flex transition-transform transform hover:scale-105 '>
-              <div
-              className='px-2  font-semibold bg-green-950 text-white uppercase rounded-xl'
-              style={{
-                clipPath: "polygon(0 0, 38% 0, 26.5% 11%, 0 11%)",
-                border: "1px solid #ddd",
-                borderRadius: "10px",
-                marginBottom: "15px",
-                boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-                width: "300px",
-              }}
-              > {order.name}</div>
-              <OrderCard key={index} order={order}  />
+            orders.map((order) => (
+              <div key={order._id} className="relative w-80 transform transition duration-300 hover:scale-105">
+                
+                {/* Order Name Button Outside the Clipped Div */}
+                <button className='bg-green-800 text-white rounded-xl p-1 w-[5.5rem] absolute -top-1 -left-1 shadow-lg text-md'>
+                  {order.name}
+                </button>
+
+                {/* Clipped Order Card */}
+                <div
+                  className="relative flex flex-col gap-1 justify-center bg-white rounded-xl p-6 w-80 h-56 "
+                  style={{
+                    clipPath: "polygon(24% 15%, 35% 0, 100% 0, 100% 100%, 0 100%, 0 15%)",
+                  }}
+                >
+                  <h3 className="text-md mt-4 text-gray-700">
+                    <strong>Order ID: </strong> 
+                    <span className="text-sm font-normal p-1 rounded-xl text-gray-700">{order._id}</span>
+                  </h3>
+                  <p className="text-md text-gray-700"><strong>Requested Parali:</strong> {order.requestedParali} tons</p>
+                  <p className="text-md text-gray-700"><strong>Total Price:</strong> ₹{order.totalPrice}</p>
+                  <p className="text-md text-gray-700"><strong>Deliver Within:</strong> {order.deliverWithin} days</p>
+                  <p className="text-md text-gray-700"><strong>Location:</strong> {order.location}</p>
+                  <p className={`text-md font-bold ${
+                    order.status === "pending" ? "text-yellow-600" :
+                    order.status === "accepted" ? "text-lime-600" : "text-red-600"}`}
+                  >
+                    <strong>Status:</strong> {order.status}
+                  </p>
+                </div>
               </div>
-              
             ))
           )}
         </div>

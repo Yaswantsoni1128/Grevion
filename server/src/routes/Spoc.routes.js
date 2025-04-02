@@ -10,8 +10,8 @@ spocRouter.get("/getAllFarmers",auth, isSpoc, getAllFarmers)
 spocRouter.delete("/deleteFarmer/:farmerId",auth, isSpoc, deleteFarmer)
 spocRouter.put("/updateFarmer/:farmerId",auth, isSpoc, updateFarmer)
 spocRouter.get("/getAllRequests",auth,isSpoc, getAllRequests)
-spocRouter.get("/acceptRequest/:reqid",auth,isSpoc, acceptRequest);
-spocRouter.get("/declineRequest/:reqid",auth,isSpoc, declineRequest);
+spocRouter.post("/acceptRequest/:reqid",auth,isSpoc, acceptRequest);
+spocRouter.post("/declineRequest/:reqid",auth,isSpoc, declineRequest);
 
 // spocRouter.post("/uploadSpoc", uploadSpoc)
 export default spocRouter

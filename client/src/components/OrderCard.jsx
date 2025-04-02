@@ -3,13 +3,13 @@ import React from "react";
 const OrderCard = ({ order }) => {
   return (
     <div
-      className="relative flex flex-col gap-1 justify-center bg-gray-100 shadow-lg border border-green-950 rounded-lg p-6 w-[350px] h-[210px]  -ml-[18.8rem] mb-12"
+      className="relative flex flex-col gap-1 justify-center bg-gray-100   rounded-xl p-6 w-[350px] h-[210px]  -ml-[18.8rem] mb-12"
       style={{
         clipPath: "polygon(24% 15%, 35% 0, 100% 0, 100% 100%, 0 100%, 0 15%)",
       }}
     >
       <h3 className="text-md mt-6 bg-green-950 p-1 rounded-xl text-white w-[16.688rem]">
-        <strong>Order ID: </strong> <span className="text-sm font-normal bg-lime-300 w-full p-1 rounded-xl text-gray-700 ">{order._id}</span>
+        <strong>Order ID: </strong> <span className="text-sm font-normal bg-white w-full p-1 rounded-xl text-gray-700 ">{order._id}</span>
       </h3>
       <p className="text-md text-gray-700">
         <strong>Requested Parali:</strong> {order.requestedParali} tons

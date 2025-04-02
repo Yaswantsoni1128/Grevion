@@ -1,9 +1,145 @@
-import React from 'react'
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import spocListingImg from "../../assets/spocListing.png"
 
-function SpocsListingPage() {
+const SpocListingPage = () => {
+  const [spocs, setSpocs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [orderStatus, setOrderStatus] = useState({});
+  const [showModal, setShowModal] = useState(false);
+  const [formData, setFormData] = useState({
+    requestedParali: "",
+    offeredPricePerTon: "",
+    totalPrice: "",
+    deliverWithin: "",
+    location: "",
+    message: "",
+  });
+  const [selectedSpocId, setSelectedSpocId] = useState(null);
+
+  useEffect(() => {
+    const fetchSpocs = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await axios.get("http://localhost:8000/api/v1/powerplant/getAllSpoc", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (response.data.success) {
+          setSpocs(response.data.spocs);
+        } else {
+          setError("Failed to fetch spocs");
+        }
+      } catch (error) {
+        console.error(error);
+        setError("Error fetching spocs");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchSpocs();
+  }, []);
+
+  const handleOrderClick = (spocId) => {
+    setSelectedSpocId(spocId);
+    setShowModal(true);
+  };
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      await axios.post(
+        `http://localhost:8000/api/v1/powerplant/placeOrder/${selectedSpocId}`,
+        formData,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      setOrderStatus((prevStatus) => ({
+        ...prevStatus,
+        [selectedSpocId]: "Order Placed",
+      }));
+      setShowModal(false);
+    } catch (error) {
+      console.error("Error placing order", error);
+    }
+  };
+
   return (
-    <div>SpocsListingPage</div>
-  )
-}
+    <div className="relative flex flex-col items-center min-h-screen bg-gray-100">
+      <div className="relative w-full">
+        <img src={spocListingImg} className="w-full h-80 brightness-50" alt="" />
+      <h2 className="mb-6 text-7xl font-extrabold text-white uppercase absolute text-center w-full top-52">Spoc Listing</h2>
+      </div>
+      <div className="w-full max-w-6xl p-10">
+        {loading ? (
+          <p className="text-lg font-semibold text-center text-gray-600">Loading...</p>
+        ) : error ? (
+          <p className="text-lg font-semibold text-center text-red-600">{error}</p>
+        ) : (
+          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            {spocs.map((spoc) => (
+              <div key={spoc._id} className="flex flex-col items-center relative">
+                <div
+                  className="relative p-6 bg-white rounded-xl   w-80 h-56 flex flex-col gap-4"
+                  style={{
+                    clipPath: "polygon(100% 0, 100% 83%, 70% 83%, 63% 100%, 0 98%, 0 0)",
+                    paddingBottom: "40px",
+                  }}
+                >
+                  <h3 className="text-2xl font-semibold text-gray-800">{spoc.name}</h3>
+                  <p className="text-gray-600 text-lg">Location: {spoc.location}</p>
+                  <p className="text-gray-600 text-lg">Total Parali: {spoc.totalParaliCollected} kg</p>
+                  <p
+                    className={`font-semibold text-xl ${spoc.availableForSale ? "text-green-600" : "text-red-600"}`}
+                  >
+                     {spoc.availableForSale ? "Available" : "Not Available"}
+                  </p>
+                </div>
+                {spoc.availableForSale && (
+                  <button
+                    onClick={() => handleOrderClick(spoc._id)}
+                    className={`mt-3 px-2 py-1 h-8  rounded-xl  absolute text-md top-[11.25rem] left-[14.5rem] ${
+                      orderStatus[spoc._id]
+                        ? "bg-gray-500 cursor-not-allowed"
+                        : "bg-green-800 text-white hover:bg-green-900"
+                    }`}
+                    disabled={orderStatus[spoc._id]}
+                  >
+                    {orderStatus[spoc._id] || "Place Order"}
+                  </button>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
 
-export default SpocsListingPage
+      {showModal && (
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
+          <div className="p-6 bg-white rounded-lg shadow-lg w-96">
+            <h2 className="mb-4 text-xl font-bold">Place Order</h2>
+            <input type="text" name="requestedParali" placeholder="Requested Parali" className="w-full p-2 mb-2 border rounded" onChange={handleChange} />
+            <input type="text" name="offeredPricePerTon" placeholder="Offered Price per Ton" className="w-full p-2 mb-2 border rounded" onChange={handleChange} />
+            <input type="text" name="totalPrice" placeholder="Total Price" className="w-full p-2 mb-2 border rounded" onChange={handleChange} />
+            <input type="text" name="deliverWithin" placeholder="Deliver Within" className="w-full p-2 mb-2 border rounded" onChange={handleChange} />
+            <input type="text" name="location" placeholder="Location" className="w-full p-2 mb-2 border rounded" onChange={handleChange} />
+            <textarea name="message" placeholder="Message" className="w-full p-2 mb-2 border rounded" onChange={handleChange}></textarea>
+            <div className="flex justify-end">
+              <button className="px-4 py-2 mr-2 text-white bg-gray-400 rounded" onClick={() => setShowModal(false)}>
+                Cancel
+              </button>
+              <button className="px-4 py-2 text-white bg-green-800 rounded" onClick={handleSubmit}>
+                Submit
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default SpocListingPage;

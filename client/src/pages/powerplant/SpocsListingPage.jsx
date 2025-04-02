@@ -82,6 +82,7 @@ const SpocListingPage = () => {
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {spocs.map((spoc) => (
               <div key={spoc._id} className="flex flex-col items-center relative">
+
                 <div
                   className="relative p-6 bg-white rounded-xl   w-80 h-56 flex flex-col gap-4"
                   style={{
@@ -101,10 +102,10 @@ const SpocListingPage = () => {
                 {spoc.availableForSale && (
                   <button
                     onClick={() => handleOrderClick(spoc._id)}
-                    className={`mt-3 px-2 py-1 h-8  rounded-xl  absolute text-md top-[11.25rem] left-[14.5rem] ${
+                    className={`mt-3 px-2 py-1 h-8  rounded-xl  absolute text-sm top-[11.25rem] left-[14.5rem] ${
                       orderStatus[spoc._id]
-                        ? "bg-gray-500 cursor-not-allowed"
-                        : "bg-green-800 text-white hover:bg-green-900"
+                        ? "bg-green-800 text-white cursor-not-allowed"
+                        : "bg-amber-600 text-white "
                     }`}
                     disabled={orderStatus[spoc._id]}
                   >

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import OrderCard from '../../components/OrderCard';
+import ordersImg from "../../assets/orders.jpg"
 const MyOrdersPage = () => {
   const [orders, setOrders] = useState([]);  // Ensure it's an array
   const [loading, setLoading] = useState(true);
@@ -49,8 +50,12 @@ const MyOrdersPage = () => {
   }, []);
 
   return (
-    <div className='flex flex-col gap-10 mt-10 items-center'>
-      <h1 className='text-green-950 text-4xl font-bold'>My Orders</h1>
+    <div className='flex flex-col gap-10  items-center'>
+      <div className='relative w-full'>
+
+        <img src={ordersImg} className='h-80 w-screen brightness-75' alt="" />
+        <h1 className=' text-7xl font-bold absolute top-52 text-white text-center flex items-center w-full uppercase'><p className='w-full '>My Orders</p></h1>
+      </div>
       {loading ? (
         <p>Loading orders...</p>
       ) : error ? (
@@ -63,7 +68,7 @@ const MyOrdersPage = () => {
             orders.map((order, index) => (
               <div className='flex transition-transform transform hover:scale-105 '>
               <div
-              className='px-2  font-semibold bg-green-950 text-lime-300 uppercase'
+              className='px-2  font-semibold bg-green-950 text-white uppercase rounded-xl'
               style={{
                 clipPath: "polygon(0 0, 38% 0, 26.5% 11%, 0 11%)",
                 border: "1px solid #ddd",

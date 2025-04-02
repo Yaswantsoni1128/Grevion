@@ -169,5 +169,31 @@ const getAllOrders = async (req, res) =>{
     }
 }
 
+const getPowerPlantInfo= async(req,res)=>{
+  try {
+    const userId= req.user.id;
+    console.log(userId)
+    const powerPlant= await User.findOne({_id:userId});
+    console.log(powerPlant)
+    if(!powerPlant)
+    {
+      return res.status(400).json({
+        success:false,
+        message:"Power plant not found"
+      })
+    }
+    return res.status(200).json({
+      success:true,
+      message:"Powr plant details fetched successfully",
+      powerPlant
+    })
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      success:false,
+      message:"Unable to fetch power plant details, please try again!"
+    })
+  }
+}
 
-export  {getAllSpoc, placeOrder, getAllOrders}
+export  {getAllSpoc, placeOrder, getAllOrders, getPowerPlantInfo}

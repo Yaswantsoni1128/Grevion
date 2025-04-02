@@ -79,6 +79,42 @@ const SpocListingPage = () => {
         ) : error ? (
           <p className="text-lg font-semibold text-center text-red-600">{error}</p>
         ) : (
+
+//           <table className="w-full border-collapse rounded-lg">
+//             <thead className="text-lg text-white bg-green-800">
+//               <tr>
+//                 <th>Name</th>
+//                 <th>Location</th>
+//                 <th>Total Parali</th>
+//                 <th>Available</th>
+//                 <th>Action</th>
+//               </tr>
+//             </thead>
+//             <tbody className="text-lg text-gray-700">
+//               {spocs.map((spoc) => (
+//                 <tr key={spoc._id} className="border-b hover:bg-green-100">
+//                   <td className="px-4 py-1 text-center">{spoc.name}</td>
+//                   <td className="px-4 py-1 text-center">{spoc.location}</td>
+//                   <td className="px-4 py-1 text-center">{spoc.totalParaliCollected} kg</td>
+//                   <td className="px-4 py-1 text-center ">{spoc.availableForSale && spoc.totalParaliCollected>0 ? "Yes" : "No"}</td>
+//                   <td className="px-4 py-1 text-center">
+//                     {spoc.availableForSale ? (
+//                       <button
+//                         onClick={() => handleOrderClick( spoc._id)}
+//                         className={`px-4 py-2 rounded ${orderStatus[spoc._id] ? 'bg-gray-500 cursor-not-allowed' : 'bg-blue-600 text-white hover:bg-blue-700'}`}
+//                         disabled={orderStatus[spoc._id]}
+//                       >
+//                         {orderStatus[spoc._id] || "Place Order"}
+//                       </button>
+//                     ) : (
+//                       <span className="text-red-600">Not Available</span>
+//                     )}
+//                   </td>
+//                 </tr>
+//               ))}
+//             </tbody>
+//           </table>
+
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {spocs.map((spoc) => (
               <div key={spoc._id} className="flex flex-col items-center relative">

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-
+import OrderCard from '../../components/OrderCard';
 const MyOrdersPage = () => {
   const [orders, setOrders] = useState([]);  // Ensure it's an array
   const [loading, setLoading] = useState(true);
@@ -22,13 +22,11 @@ const MyOrdersPage = () => {
           },
         });
     
-        console.log('Response Data:', response.data); // Log the response data
-    
-        // Access orders from response.data.orders and check if it's an array
+        console.log('Response Data:', response.data); 
         if (Array.isArray(response.data.orders)) {
-          setOrders(response.data.orders); // Set the orders if valid array
+          setOrders(response.data.orders); 
         } else {
-          setOrders([]); // No orders found, set empty array
+          setOrders([]);
         }
     
         setLoading(false);
@@ -51,24 +49,36 @@ const MyOrdersPage = () => {
   }, []);
 
   return (
-    <div>
-      <h1>My Orders</h1>
+    <div className='flex flex-col gap-10 mt-10 items-center'>
+      <h1 className='text-green-950 text-4xl font-bold'>My Orders</h1>
       {loading ? (
         <p>Loading orders...</p>
       ) : error ? (
         <p style={{ color: 'red' }}>{error}</p>
       ) : (
-        <ul>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "35px" }} >
           {orders.length === 0 ? (
             <p>No orders found.</p>
           ) : (
             orders.map((order, index) => (
-              <li key={index}>
-                Order ID: {order._id} - Status: {order.status}
-              </li>
+              <div className='flex transition-transform transform hover:scale-105 '>
+              <div
+              className='px-2  font-semibold bg-green-950 text-lime-300 uppercase'
+              style={{
+                clipPath: "polygon(0 0, 38% 0, 26.5% 11%, 0 11%)",
+                border: "1px solid #ddd",
+                borderRadius: "10px",
+                marginBottom: "15px",
+                boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                width: "300px",
+              }}
+              > {order.name}</div>
+              <OrderCard key={index} order={order}  />
+              </div>
+              
             ))
           )}
-        </ul>
+        </div>
       )}
     </div>
   );

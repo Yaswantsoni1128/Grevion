@@ -49,11 +49,16 @@ const completeProfile = async (req, res) => {
 const getUserProfile = async (req, res) => {
     try {
         const { userId } = req.params;
-        const user = await User.findById(userId).populate("additionalDetails");
+        
+        console.log("Userid recieved", userId)
+
+        const user = await User.findById(userId).populate("additionalDeatils");
 
         if (!user) return res.status(404).json({ message: "User not found" });
 
-        res.status(200).json({ user });
+        console.log("User fetched successfully")
+
+        res.status(200).json({ success: true , user });
     } catch (error) {
         res.status(500).json({ message: "Server Error", error });
     }

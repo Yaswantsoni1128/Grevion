@@ -20,10 +20,11 @@ const Login = () => {
         password,
       });
 
-      const { token, role } = response.data;
+      const { token, role , user } = response.data;
       
       localStorage.setItem("token", token);
       localStorage.setItem("role", role);
+      localStorage.setItem("userId", user._id);
 
       toast.success("Login successful!", {
         position: "top-right",

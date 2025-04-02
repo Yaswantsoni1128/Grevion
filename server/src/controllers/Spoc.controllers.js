@@ -381,6 +381,33 @@ const declineRequest= async(req,res)=>{
     }
 }
 
+const getSpocInfo= async(req,res)=>{
+    try {
+        const userId= req.user.id;
+        console.log(userId)
+        const spoc= await Spoc.findOne({userId});
+        console.log(spoc)
+        if(!spoc)
+        {
+            return res.status(400).json({
+                success:false,
+                message:"Spoc not found"
+            })
+        }
+        return res.status(200).json({
+            success:true,
+            message:"Spoc info fetched successfully",
+            spoc
+        })
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            success:false,
+            message:"Unable to fetch spoc info, please try again!"
+        })
+    }
+}
 
 
-export  {addFarmer, updateFarmer, deleteFarmer, getAllFarmers, getAllRequests, acceptRequest, declineRequest};
+
+export  {addFarmer, updateFarmer, deleteFarmer, getAllFarmers, getAllRequests, acceptRequest, declineRequest,getSpocInfo};

@@ -67,10 +67,11 @@ const Signup =  () => {
         name,  email, otp, password, role, phone, location
       });
 
-      const { token, role } = response.data;
+      const { token, role , user } = response.data;
       
       localStorage.setItem("token", token);
       localStorage.setItem("role", role);
+      localStorage.setItem("userId", user._id);
 
 
       if (response.data.success) {

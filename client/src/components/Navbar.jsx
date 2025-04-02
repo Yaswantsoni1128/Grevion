@@ -35,7 +35,7 @@ const Navbar = () => {
     <>
       <nav className="bg-green-950 px-20 py-4 flex items-center justify-between">
         <Link to={"/"}>
-          <h1 className="text-2xl font-bold cursor-pointer text-lime-400">Grevion</h1>
+          <h1 className="text-2xl font-bold cursor-pointer text-lime-400 hover:text-lime-300">Grevion</h1>
         </Link>
 
         <div className="hidden space-x-6 text-white md:flex">
@@ -54,8 +54,8 @@ const Navbar = () => {
         <div className="flex items-center px-2 space-x-4">
           {isLoggedIn ? (
             <div className="flex items-center justify-between gap-5">
-              <MdDashboard onClick={navigateToDashboard} className="text-lime-300 w-8 h-8 cursor-pointer hover:text-lime-400 shadow-lg" />
-              <MdLogout onClick={handleLogout} className="text-lime-300 w-6 h-6 hover:text-red-500 shadow-lg  cursor-pointer" />
+              <MdDashboard onClick={navigateToDashboard} className="text-lime-400 hover:text-lime-300 w-8 h-8 cursor-pointer text-lg shadow-lg" />
+              <MdLogout onClick={handleLogout} className="text-lime-400 w-6 h-6 hover:text-red-500 shadow-lg  cursor-pointer" />
               
             </div>
           ) : (

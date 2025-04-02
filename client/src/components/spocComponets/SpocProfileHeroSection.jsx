@@ -80,10 +80,10 @@ function SpocProfileHeroSection() {
               {userInfo.name || "Unknown"}
             </h1>
             <p className="text-lg md:text-xl">
-              {userInfo.role || "No role assigned"}
+              {(userInfo.role == 'spoc') ? "Single Point of Contact (SPOC)" : "Power Plant Manager"}
             </p>
             <div className="flex mt-2 space-x-4 text-sm md:text-base">
-              {userInfo.location || "No village info"}
+              <p>Village : {userInfo.location || "No village info"}</p>
             </div>
           </>
         )}

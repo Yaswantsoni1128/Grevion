@@ -7,7 +7,7 @@ function SpocProfilePage() {
   return (
     <>
       <SpocProfileHeroSection/>
-      <div className="flex justify-center items-start gap-4">
+      <div className="flex flex-col lg:flex-row justify-center items-center md:items-start gap-4">
         <ParaliInfo/>
         <SpocPersonalInfo/>
       </div>

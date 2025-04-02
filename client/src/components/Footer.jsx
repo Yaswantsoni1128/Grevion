@@ -1,4 +1,5 @@
 import { FaFacebook, FaTwitter, FaLinkedin, FaGlobe, FaMapMarkerAlt, FaPhone, FaEnvelope } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 export default function Footer() {
   return (
@@ -17,11 +18,19 @@ export default function Footer() {
 
         <div>
             <h3 className="text-[1.1rem] font-semibold mb-6 pt-6">LINKS</h3>
-            <ul className="mt-2 space-y-4">
-                <li className=" cursor-pointer hover:text-gray-300 relative after:absolute after:content-[''] after:w-full after:h-0.5 after:bg-gray-300 after:left-0 after:bottom-0 after:scale-x-0 after:transition-transform after:duration-300 hover:after:scale-x-100">About</li>
-                <li className=" cursor-pointer hover:text-gray-300 relative after:absolute after:content-[''] after:w-full after:h-0.5 after:bg-gray-300 after:left-0 after:bottom-0 after:scale-x-0 after:transition-transform after:duration-300 hover:after:scale-x-100">Services</li>
-                <li className=" cursor-pointer hover:text-gray-300 relative after:absolute after:content-[''] after:w-full after:h-0.5 after:bg-gray-300 after:left-0 after:bottom-0 after:scale-x-0 after:transition-transform after:duration-300 hover:after:scale-x-100">Blog</li>
-                <li className=" cursor-pointer hover:text-gray-300 relative after:absolute after:content-[''] after:w-full after:h-0.5 after:bg-gray-300 after:left-0 after:bottom-0 after:scale-x-0 after:transition-transform after:duration-300 hover:after:scale-x-100">Contact</li>
+            <ul className="mt-2 space-y-6">
+              <Link to={"/about-us"} >
+                <li className=" cursor-pointer hover:text-gray-300 relative after:absolute after:content-[''] after:w-full after:h-0.5 after:bg-gray-300 after:left-0 after:bottom-0 after:scale-x-0 after:transition-transform after:duration-300 hover:after:scale-x-100 mb-4">About</li>
+              </Link>
+              <Link to={"/our-sevices"} >
+                <li className=" cursor-pointer hover:text-gray-300 relative after:absolute after:content-[''] after:w-full after:h-0.5 after:bg-gray-300 after:left-0 after:bottom-0 after:scale-x-0 after:transition-transform after:duration-300 hover:after:scale-x-100 mb-4">Services</li>
+              </Link>
+              <Link to={"/blog"} >
+                <li className=" cursor-pointer hover:text-gray-300 relative after:absolute after:content-[''] after:w-full after:h-0.5 after:bg-gray-300 after:left-0 after:bottom-0 after:scale-x-0 after:transition-transform after:duration-300 hover:after:scale-x-100 mb-4">Blog</li>
+              </Link>
+              <Link to={"/contact-us"} >
+                <li className=" cursor-pointer hover:text-gray-300 relative after:absolute after:content-[''] after:w-full after:h-0.5 after:bg-gray-300 after:left-0 after:bottom-0 after:scale-x-0 after:transition-transform after:duration-300 hover:after:scale-x-100 mb-4">Contact</li>
+              </Link>
             </ul>
         </div>
 

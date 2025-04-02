@@ -13,22 +13,17 @@ function ParaliInfo() {
       setError(""); // Reset error state
 
       const token = localStorage.getItem("token");
-      const userId = localStorage.getItem("userId");
-
-      if (!userId) {
-        setError("User ID not found.");
-        return;
-      }
+      
 
       const response = await axios.get(
-        `http://localhost:8000/api/v1/users/getUserProfile/${userId}`,
+        `http://localhost:8000/api/v1/spoc/getSpocInfo`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      console.log(response.data.user)
+      console.log("spoc info",response.data)
       if (response.data.success) {
-        setUserInfo(response.data.user);
+        setUserInfo(response.data.spoc);
       } else {
         setError("Error fetching user data");
       }

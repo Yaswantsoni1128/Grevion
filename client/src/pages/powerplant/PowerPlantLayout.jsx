@@ -4,11 +4,11 @@ import { Navigate, Outlet } from 'react-router-dom'
 
 const PowerPlantLayout = () => {
 
-  const role  = localStorage.getItem("role")
+  // const role  = localStorage.getItem("role")
 
-  if (role !== "power_plant") {
-    return <Navigate to="/spoc/dashboard" replace />;
-  }
+  // if (role !== "power_plant") {
+  //   return <Navigate to="/spoc/dashboard" replace />;
+  // }
 
   return (
     <div>

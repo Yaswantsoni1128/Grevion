@@ -6,9 +6,9 @@ const SpocLayout = () => {
 
   const role  = localStorage.getItem("role")
 
-  if (role !== "spoc") {
-    return <Navigate to="/powerplant/dashboard" replace />;
-  }
+  // if (role !== "spoc") {
+  //   return <Navigate to="/powerplant/dashboard" replace />;
+  // }
 
   return (
     <div>

@@ -2,10 +2,12 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ordersImg from "../../assets/orders.jpg";
 
 const OrderRequests = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [error , setError] = useState(null)
 
   useEffect(() => {
     fetchOrders();
@@ -86,72 +88,87 @@ const OrderRequests = () => {
   
   
   return (
-    <div className="min-h-screen p-6 bg-gray-100">
-      <div className="max-w-4xl p-6 mx-auto bg-white rounded-lg shadow-lg">
-        <h2 className="mb-6 text-2xl font-bold text-center text-gray-800">
-          Order Requests
-        </h2>
-
-        {loading ? (
-          <div className="flex items-center justify-center">
-            <div className="w-10 h-10 border-t-4 border-blue-500 rounded-full animate-spin"></div>
+    <div className="flex flex-col gap-10 items-center bg-gray-100">
+          <div className="relative w-full">
+            <img
+              src={ordersImg}
+              className="w-full h-48 sm:h-56 md:h-64 lg:h-72 xl:h-80 object-cover brightness-75"
+              alt="Orders"
+            />
+            <h1 className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white text-center uppercase">
+              All Requests
+            </h1>
           </div>
-        ) : orders.length === 0 ? (
-          <p className="text-center text-gray-500">No orders found.</p>
-        ) : (
-          <div className="grid gap-4">
-            {orders.map((order) => (
-              <div
-                key={order._id}
-                className="p-4 bg-white rounded-lg shadow-md"
-              >
-                <p className="text-lg font-semibold text-gray-700">
-                  <strong>PowerPlant:</strong> {order.name}
+    
+          {loading ? (
+            <p className="text-lg font-semibold text-gray-600">Loading orders...</p>
+          ) : error ? (
+            <p className="text-lg font-semibold text-red-600">{error}</p>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
+              {orders.length === 0 ? (
+                <p className="text-lg font-semibold text-gray-600 ">
+                  No Requests found.
                 </p>
-                <p className="text-gray-600">
-                  <strong>Location:</strong> {order.location}
-                </p>
-                <p className="text-gray-600">
-                  <strong>Price offered per ton:</strong>{" "}
-                  {order.offeredPricePerTon}₹
-                </p>
-                <p className="text-gray-600">
-                  <strong>Requested Parali:</strong> {order.requestedParali} ton
-                </p>
-                <p className="text-gray-600">
-                  <strong>Total Price:</strong> {order.totalPrice}₹
-                </p>
-                <p className="text-gray-600">
-                  <strong>Message:</strong> {order.message}
-                </p>
-                <p className="text-gray-600">
-                  <strong>Accept order Within:</strong> {order.deliverWithin}
-                  days
-                </p>
-
-                <div className="flex justify-between mt-4">
+              ) : (
+                orders.map((order) => (
+                  <div
+                    key={order._id}
+                    className="relative w-80 transform transition duration-300 hover:scale-105"
+                  >
+                    {/* Order Name Button Outside the Clipped Div */}
+                    <button className="bg-green-800 text-white rounded-xl p-1 w-[5.5rem] absolute -top-1 -left-1 shadow-lg text-md">
+                      {order.name}
+                    </button>
+    
+                    {/* Clipped Order Card */}
+                    <div
+                      className="relative flex flex-col gap-1 justify-center bg-white rounded-xl p-6 w-80 h-56 "
+                      style={{
+                        clipPath:
+                          "polygon(24% 15%, 35% 0, 100% 0, 100% 100%, 0 100%, 0 15%)",
+                      }}
+                    >
+                      <h3 className="text-md mt-4 text-gray-700">
+                        <strong>Order ID: </strong>
+                        <span className="text-sm font-normal p-1 rounded-xl text-gray-700">
+                          {order._id}
+                        </span>
+                      </h3>
+                      <p className="text-md text-gray-700">
+                        <strong>Requested Parali:</strong> {order.requestedParali}{" "}
+                        tons
+                      </p>
+                      <p className="text-md text-gray-700">
+                        <strong>Total Price:</strong> ₹{order.totalPrice}
+                      </p>
+                      <p className="text-md text-gray-700">
+                        <strong>Deliver Within:</strong> {order.deliverWithin} days
+                      </p>
+                      <p className="text-md text-gray-700">
+                        <strong>Location:</strong> {order.location}
+                      </p>
+                      <div className="flex justify-between">
                   <button
                     onClick={() => handleAccept(order._id)}
-                    className="px-4 py-2 text-white bg-green-500 rounded-lg hover:bg-green-600"
+                    className="px-4 py-1 text-white bg-green-500 rounded-lg hover:bg-green-600"
                   >
-                    ✅ Accept
+                    Accept
                   </button>
                   <button
                     onClick={() => handleDecline(order._id)}
-                    className="px-4 py-2 text-white bg-red-500 rounded-lg hover:bg-red-600"
+                    className="px-4 py-1 text-white bg-red-500 rounded-lg hover:bg-red-600"
                   >
-                    ❌ Decline
+                    Decline
                   </button>
                 </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-
-      {/* Toast Notifications */}
-      <ToastContainer position="top-right" autoClose={2000} />
-    </div>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+          )}
+        </div>
   );
 };
 

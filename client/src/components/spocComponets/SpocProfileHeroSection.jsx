@@ -10,7 +10,7 @@ function SpocProfileHeroSection() {
     try {
       setLoading(true);
       const token = localStorage.getItem("token");
-      const userId = localStorage.getItem("userId"); // ✅ Fetch userId from local storage
+      const userId = localStorage.getItem("userId"); 
       console.log(userId)
       if (!userId) {
         setError("User ID not found.");

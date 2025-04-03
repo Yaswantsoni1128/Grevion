@@ -21,7 +21,7 @@ function ParaliInfo() {
       }
 
       const response = await axios.get(
-        `http://localhost:8000/api/v1/users/getUserProfile/${userId}`,
+        `${import.meta.env.VITE_API_URL}/api/v1/users/getUserProfile/${userId}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }

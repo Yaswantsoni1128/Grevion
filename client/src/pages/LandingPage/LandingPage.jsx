@@ -12,12 +12,10 @@ const LandingPage = () => {
     <div>
       <GrevionEnergyTrade/>
       <LandingImage/>
-     
       <AboutUsSection />
       <WhoWeAreComp/>
       <Comp3/>
       <FAQs/>
-      {/* <Review/> */}
     </div>
   )
 }

@@ -11,7 +11,7 @@ const FarmerListingPage = () => {
     const fetchFarmers = async () => {
       try {
         const token = localStorage.getItem("token"); // Assuming you store JWT in localStorage
-        const response = await axios.get("http://localhost:8000/api/v1/spoc/getAllFarmers", {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/spoc/getAllFarmers`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

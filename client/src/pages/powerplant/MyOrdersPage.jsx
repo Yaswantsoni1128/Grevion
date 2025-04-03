@@ -18,7 +18,7 @@ const MyOrdersPage = () => {
 
       try {
         const response = await axios.get(
-          "http://localhost:8000/api/v1/powerplant/getAllOrders",
+          `${import.meta.env.VITE_API_URL}/api/v1/powerplant/getAllOrders`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }

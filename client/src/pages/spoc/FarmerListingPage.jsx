@@ -167,6 +167,8 @@ const FarmerListingPage = () => {
       
     </div>
   );
-};
+});
+}
+
 
 export default FarmerListingPage;

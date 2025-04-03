@@ -1,7 +1,7 @@
 import React from 'react';
 import { FaArrowRight } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-
+import landingComp2Img from "../../assets/landingComp2.jpg"
 function WhoWeAreComp() {
     return (
         <div className='bg-gray-100 pb-8 pt-1 px-4 sm:px-8'>
@@ -15,7 +15,7 @@ function WhoWeAreComp() {
                 {/* Image Section */}
                 <div className="md:w-2/5 w-full flex justify-center md:justify-start">
                     <img 
-                        src="https://img.freepik.com/free-photo/aerial-view-summer-harvest-combine-harvester-harvesting-large-field_661209-11.jpg?t=st=1743490625~exp=1743494225~hmac=6f4e58502c1a4b73fc86b2330d01c7da1712d291bae5041f873f679207e43717&w=1060" 
+                        src={landingComp2Img} 
                         alt="Who We Are" 
                         className="rounded-lg w-full sm:w-4/5 md:w-full"
                     />

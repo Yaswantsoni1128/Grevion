@@ -6,7 +6,7 @@ const PowerPlantNavbar = () => {
     { name: "Dashboard", path: "/powerplant/dashboard" },
     { name: "SPOC Listing", path: "/powerplant/spocs-listing" },
     { name: "My Orders", path: "/powerplant/my-orders" },
-    { name: "MakePayment", path: "/powerplant/make-payment" },
+    // { name: "MakePayment", path: "/powerplant/make-payment" },
     { name: "Profile", path: "/powerplant/profile" },
   ];
 

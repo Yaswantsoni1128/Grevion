@@ -75,6 +75,14 @@ const placeOrder = async (req, res) => {
       });
     }
 
+    if(spoc.totalParaliCollected<requestedParali)
+    {
+      return res.status(400).json({
+        success:false,
+        message:"Insufficient Quantity"
+      })
+    }
+
     console.log(user.name);
     const newOrder = await Order.create({
       powerPlantId: powerPlant._id, // Use actual PowerPlant _id

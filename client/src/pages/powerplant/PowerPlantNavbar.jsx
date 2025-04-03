@@ -1,12 +1,34 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 
 const PowerPlantNavbar = () => {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      try {
+        const token = localStorage.getItem("token")
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/auth/getUserInfo`,{
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        
+        console.log(response.data)
+        console.log("Fetched User:", response.data.user); // Debugging
+
+        setUser(response.data.user); // Ensure user object is correctly stored
+      } catch (error) {
+        console.error("Error fetching user info:", error);
+      }
+    };
+
+    fetchUserInfo();
+  }, []);
+
   const navItems = [
     { name: "Dashboard", path: "/powerplant/dashboard" },
     { name: "SPOC Listing", path: "/powerplant/spocs-listing" },
     { name: "My Orders", path: "/powerplant/my-orders" },
-    // { name: "MakePayment", path: "/powerplant/make-payment" },
     { name: "Profile", path: "/powerplant/profile" },
   ];
 
@@ -29,7 +51,20 @@ const PowerPlantNavbar = () => {
           ))}
         </div>
         <div className="w-[10%] flex justify-end items-center">
-          <img src="https://plus.unsplash.com/premium_photo-1689568126014-06fea9d5d341?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cHJvZmlsZXxlbnwwfHwwfHx8MA%3D%3D" alt="profile_image" className="w-8 h-8 rounded-full"/>
+          {user?.image?.trim() ? (
+            <img
+              src={user.image}
+              alt="User Profile"
+              className="w-8 h-8 rounded-full border-2 border-white"
+              onError={(e) => {
+                e.target.src = "https://via.placeholder.com/40"; // Fallback image
+              }}
+            />
+          ) : (
+            <div className="w-8 h-8 rounded-full bg-gray-500 flex items-center justify-center text-sm">
+              ?
+            </div>
+          )}
         </div>
       </nav>
     </div>

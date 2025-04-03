@@ -14,29 +14,33 @@ const FarmerListingPage = () => {
   const [selectedFarmer, setSelectedFarmer] = useState(null);
 
   useEffect(() => {
+    const fetchFarmers = async () => {
+      try {
+        const token = localStorage.getItem("token"); // Assuming you store JWT in localStorage
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/spoc/getAllFarmers`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        console.log(response.data.farmers);
+        
+        if (response.data.success) {
+          setFarmers(response.data.farmers);
+          calculateTotalParali(response.data.farmers); // Call to calculate total parali
+        } else {
+          setError("Failed to fetch farmers");
+        }
+      } catch (error) {
+        console.error(error);
+        setError("Error fetching farmers");
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchFarmers();
   }, []);
-
-  const fetchFarmers = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      const response = await axios.get("http://localhost:8000/api/v1/spoc/getAllFarmers", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-
-      if (response.data.success) {
-        setFarmers(response.data.farmers);
-        calculateTotalParali(response.data.farmers);
-      } else {
-        setError("Failed to fetch farmers");
-      }
-    } catch (error) {
-      console.error(error);
-      setError("Error fetching farmers");
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const calculateTotalParali = (farmers) => {
     const total = farmers.reduce((sum, farmer) => sum + (farmer.totalParali || 0), 0);
@@ -54,21 +58,21 @@ const FarmerListingPage = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.put(
-        `http://localhost:8000/api/v1/spoc/updateFarmer/${selectedFarmer._id}`,
+        `${import.meta.env.VITE_API_URL}/api/v1/spoc/updateFarmer/${selectedFarmer._id}`,
         selectedFarmer,
         { headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" } }
       );
 
       if (response.data.success) {
-        toast.success("Farmer Updated successfully",{ autoClose: 2000 })
+        toast.success("Farmer Updated successfully", { autoClose: 2000 });
         fetchFarmers(); // Refresh the list
         setShowPopup(false);
       } else {
-        toast.error("Failed to update farmer.",{ autoClose: 2000 })
+        toast.error("Failed to update farmer.", { autoClose: 2000 });
       }
     } catch (error) {
       console.error(error);
-      toast.error("Error updating farmer.",{ autoClose: 2000 })
+      toast.error("Error updating farmer.", { autoClose: 2000 });
     }
   };
 
@@ -78,29 +82,28 @@ const FarmerListingPage = () => {
 
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.delete(`http://localhost:8000/api/v1/spoc/deleteFarmer/${farmerId}`, {
+      const response = await axios.delete(`${import.meta.env.VITE_API_URL}/api/v1/spoc/deleteFarmer/${farmerId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
       if (response.data.success) {
-        toast.success("Farmer deleted successfully!",{ autoClose: 2000 })
-        setFarmers(farmers.filter((farmer) => farmer._id !== farmerId)); // Remove from UI
-        calculateTotalParali(farmers.filter((farmer) => farmer._id !== farmerId));
+        toast.success("Farmer deleted successfully!", { autoClose: 2000 });
+        const updatedFarmers = farmers.filter((farmer) => farmer._id !== farmerId);
+        setFarmers(updatedFarmers);
+        calculateTotalParali(updatedFarmers);
       } else {
-        toast.error("Failed to delete farmer.",{ autoClose: 2000 })
-        
+        toast.error("Failed to delete farmer.", { autoClose: 2000 });
       }
     } catch (error) {
       console.error(error);
-      toast.error("Error deleting farmer.",{ autoClose: 2000 })
-      
+      toast.error("Error deleting farmer.", { autoClose: 2000 });
     }
   };
 
   return (
     <div className="flex flex-col items-center min-h-screen p-10 bg-gray-50">
       {/* Total Parali Collected */}
-      <ToastContainer/>
+      <ToastContainer />
       <h2 className="px-6 py-3 mb-6 text-xl font-semibold text-white bg-green-800 rounded-md shadow-lg">
         Total Parali Collected: {totalParali} Kg
       </h2>
@@ -164,7 +167,6 @@ const FarmerListingPage = () => {
           </div>
         </div>
       )}
-      
     </div>
   );
 };

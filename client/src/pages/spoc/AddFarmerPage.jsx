@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import addFarmerBg from '../../assets/addFarmer.jpg'
 
 const AddFarmerPage = () => {
   const [formData, setFormData] = useState({
@@ -27,7 +28,7 @@ const AddFarmerPage = () => {
       const token = localStorage.getItem("token"); 
 
       const response = await axios.post(
-        "http://localhost:8000/api/v1/spoc/addFarmer", 
+        `${import.meta.env.VITE_API_URL}/api/v1/spoc/addFarmer`, 
         formData,
         {
           headers: {
@@ -51,18 +52,19 @@ const AddFarmerPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex justify-center items-center">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-lg">
-        <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center">Add Farmer</h2>
+    <div className="py-10 bg-gray-100 flex justify-center items-center bg-[url('/src/assets/addFarmer.jpg')] bg-cover">
+      <div className="bg-white p-8 rounded-lg shadow-lg w-[80%] max-w-lg bg-opacity-80">
+        <h2 className="text-3xl font-bold text-green-700 mb-6 text-center">Add Farmer</h2>
 
         {message && <p className="text-green-600 text-center">{message}</p>}
         {error && <p className="text-red-600 text-center">{error}</p>}
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-gray-700">Name</label>
+            <label className="block text-gray-700 font-bold">Name</label>
             <input
               type="text"
+              placeholder="Enter your full name"
               name="name"
               value={formData.name}
               onChange={handleChange}
@@ -71,9 +73,10 @@ const AddFarmerPage = () => {
             />
           </div>
           <div>
-            <label className="block text-gray-700">Phone</label>
+            <label className="block text-gray-700 font-bold">Phone</label>
             <input
               type="text"
+              placeholder="+91"
               name="phone"
               value={formData.phone}
               onChange={handleChange}
@@ -82,9 +85,10 @@ const AddFarmerPage = () => {
             />
           </div>
           <div>
-            <label className="block text-gray-700">Email</label>
+            <label className="block text-gray-700 font-bold">Email</label>
             <input
               type="email"
+              placeholder="example@gmail.com"
               name="email"
               value={formData.email}
               onChange={handleChange}
@@ -93,7 +97,7 @@ const AddFarmerPage = () => {
             />
           </div>
           <div>
-            <label className="block text-gray-700">Total Parali</label>
+            <label className="block text-gray-700 font-bold">Total Parali</label>
             <input
               type="number"
               name="totalParali"

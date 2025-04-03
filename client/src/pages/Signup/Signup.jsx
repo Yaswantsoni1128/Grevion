@@ -17,7 +17,7 @@ const Signup =  () => {
   
   const sendOtp = async () => {
     try {
-      const response = await axios.post("http://localhost:8000/api/v1/auth/sendOtp", { email });
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/v1/auth/sendOtp`, { email });
       if (response.data.success) {
         toast.success("OTP sent successfully", {
           position: "top-right",
@@ -63,7 +63,7 @@ const Signup =  () => {
     console.table([name,email,role,location,password,phone,otp])
     
     try {
-      const response = await axios.post("http://localhost:8000/api/v1/auth/signup", {
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/v1/auth/signup`, {
         name,  email, otp, password, role, phone, location
       });
 

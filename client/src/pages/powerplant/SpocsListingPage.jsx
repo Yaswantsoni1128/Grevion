@@ -23,7 +23,7 @@ const SpocListingPage = () => {
       try {
         const token = localStorage.getItem("token");
         const response = await axios.get(
-          "http://localhost:8000/api/v1/powerplant/getAllSpoc",
+          `${import.meta.env.VITE_API_URL}/api/v1/powerplant/getAllSpoc`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -56,7 +56,7 @@ const SpocListingPage = () => {
     try {
       const token = localStorage.getItem("token");
       await axios.post(
-        `http://localhost:8000/api/v1/powerplant/placeOrder/${selectedSpocId}`,
+        `${import.meta.env.VITE_API_URL}/api/v1/powerplant/placeOrder/${selectedSpocId}`,
         formData,
         { headers: { Authorization: `Bearer ${token}` } }
       );

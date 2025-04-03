@@ -16,7 +16,7 @@ const PowerPlantProfile = () => {
       }
 
       try {
-        const response = await axios.get('http://localhost:8000/api/v1/auth/getUserInfo', {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/auth/getUserInfo`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 

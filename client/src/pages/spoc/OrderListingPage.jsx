@@ -19,7 +19,7 @@ const OrderRequests = () => {
       
   const token = localStorage.getItem("token");
       const response = await axios.get(
-        "http://localhost:8000/api/v1/spoc/getAllRequests",
+        `${import.meta.env.VITE_API_URL}/api/v1/spoc/getAllRequests`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -46,7 +46,7 @@ const OrderRequests = () => {
     try {
       
   const token = localStorage.getItem("token");
-      await axios.post(`http://localhost:8000/api/v1/spoc/acceptRequest/${id}`,
+      await axios.post(`${import.meta.env.VITE_API_URL}/api/v1/spoc/acceptRequest/${id}`,
         {},
         {
           headers: {
@@ -68,7 +68,7 @@ const OrderRequests = () => {
       console.log("Token:", token); // Debugging
   
       const response = await axios.post(
-        `http://localhost:8000/api/v1/spoc/declineRequest/${reqid}`, 
+        `${import.meta.env.VITE_API_URL}/api/v1/spoc/declineRequest/${reqid}`, 
         {},  // Send empty body
         {
           headers: {

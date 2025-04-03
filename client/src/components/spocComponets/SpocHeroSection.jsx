@@ -2,7 +2,7 @@ import React from 'react'
 
 function SpocHeroSection() {
     return (
-    <div className="relative bg-[url('https://img.freepik.com/free-photo/rolls-hay-field_1161-246.jpg?t=st=1743576883~exp=1743580483~hmac=0f1201846d490f40580baa01deb9dd107d2d214a503abe7ccd1e96c9bd83f4f4&w=1380')] bg-cover bg-center h-[80vh] flex items-center text-white px-10 md:px-20">
+    <div className="relative bg-[url('/src/assets/spocDashboard.jpg')] bg-cover bg-center h-[80vh] flex items-center text-white px-10 md:px-20">
     <div className="absolute inset-0 bg-black opacity-50"></div>
     <div className="relative z-10 max-w-3xl">
       <h1 className="text-center text-4xl xs:text-5xl sm:7xl w-[80vw] md:text-6xl font-bold leading-tight mb-6 animate-fade-in">

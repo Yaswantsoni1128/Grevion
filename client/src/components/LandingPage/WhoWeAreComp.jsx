@@ -34,10 +34,10 @@ function WhoWeAreComp() {
                     </p>
 
                     <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4">
-                        <button className="bg-green-950 text-white px-4 py-2 rounded-full font-normal shadow-md hover:bg-green-900 text-lg sm:text-[1.2rem]">
+                        <Link to={"/landingPage/whoweare"}>
+                        <button className="mr-4 bg-green-950 text-white px-4 py-2 rounded-full font-normal shadow-md hover:bg-green-900 text-lg sm:text-[1.2rem]">
                             Know More
                         </button>
-                        <Link to={"/landingPage/whoweare"}>
                             <button 
                                 className="hover:bg-green-950 hover:text-white text-black border border-green-950 rounded-full font-medium hover:font-semibold bg-opacity-25 p-3 sm:p-[0.7rem] text-lg sm:text-[1.2rem] shadow-md"
                             >

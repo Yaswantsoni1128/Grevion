@@ -22,7 +22,7 @@ function ContactPowerPlant() {
     };
   
     return (
-      <div className="h-[75vh]  bg-[url('https://img.freepik.com/premium-photo/painting-man-reading-bible-with-bird-cover_979520-165782.jpg?w=1380')] bg-cover bg-center" >
+      <div className="h-[75vh]  bg-[url('/src/assets/spocassets.jpg')] bg-cover bg-center" >
         {/* <div className="max-w-lg mx-auto p-6 bg-white shadow-lg rounded-lg mt-10 bg-[url('https://img.freepik.com/free-photo/close-up-detailed-wrinkled-paper-texture_23-2151873023.jpg?t=st=1743576119~exp=1743579719~hmac=22c368325777f80246c6025c5bfd3f913557f468b366f8c8b4c4b5918ef1603a&w=740')] bg-opacity-85">
           <h2 className="text-2xl font-bold text-center mb-4">Contact Power Plant</h2>
           <p className="text-gray-600 text-center mb-6">Send an email to the power plant regarding any concerns or updates.</p>

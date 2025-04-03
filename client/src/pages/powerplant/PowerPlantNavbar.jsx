@@ -34,14 +34,14 @@ const PowerPlantNavbar = () => {
 
   return (
     <div>
-      <nav className="w-full bg-green-950 text-white px-20 py-4 shadow-lg flex justify-between items-center">
+      <nav className="w-full bg-green-950 text-white px-20 py-3 shadow-lg flex justify-between items-center">
         <div className="w-auto container mx-auto flex justify-between space-x-8 text-lg font-semibold">
           {navItems.map((item) => (
             <NavLink
               key={item.path}
               to={item.path}
               className={({ isActive }) =>
-                `hover:text-gray-200 transition-all duration-100 pb-2 ${
+                `hover:text-gray-200 transition-all duration-100 ${
                   isActive ? "border-b-2 border-white " : ""
                 }`
               }

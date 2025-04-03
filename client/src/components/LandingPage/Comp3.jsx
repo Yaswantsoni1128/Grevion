@@ -12,23 +12,44 @@ const Comp3 = () => {
 
       {/* image  */}
       <div className="relative mt-10 flex justify-center">
-        <div className="relative w-full max-w-5xl">
+        <div className="relative w-full px-5 sm:px-10 md:px-20 lg:px-36">
           <img
             src="https://img.freepik.com/free-photo/natural-landscape-with-green-grass-field-golden-ripe-wheat-ai-generated-image_587448-1493.jpg?t=st=1743500042~exp=1743503642~hmac=1e0dd20e82c7ac7049d22a9db7355bb61e7c13170a280adb0b602d6819991d22&w=1380"
             alt="Energy Trading Visualization"
             className="w-full h-64 sm:h-[550px] object-cover rounded-md"
             style={{ clipPath: "polygon(15% 0, 100% 0, 100% 43%, 100% 100%, 68% 100%, 32% 100%, 0 100%, 0 10%, 13% 10%)" }}
           />
-          <div className="absolute top-1 left-1 flex gap-4">
-            <button className="bg-green-950 text-white px-3 py-2 sm:px-4 sm:py-2 rounded-full font-normal shadow-md hover:bg-green-900 text-sm sm:text-[1.2rem]">
+
+        <div className="absolute -top-1 xs:top-0 md:left-32 left-0 flex gap-2 px-5 ">
+          {/* Visible only on medium and large screens */}
+          <Link to={"/landingPage/sustainability"} className="hidden sm:block lg:hidden">
+            <button className="bg-green-950 text-white px-3 py-2 sm:px-4 sm:ml-10 sm:py-2 rounded-full font-normal shadow-md hover:bg-green-900 text-[0.6rem] sm:text-[0.8rem] md:text-[1rem]">
               Know More
             </button>
+          </Link>
+
+          {/* Visible only on small screens */}
+          <Link to={"/landingPage/sustainability"} className="sm:hidden flex lg:hidden">
+            <button className="hover:bg-green-950 hover:text-white text-black border border-green-950 rounded-full  font-medium hover:font-semibold bg-opacity-25 p-2 sm:p-[0.7rem] text-sm sm:text-[1.2rem] shadow-md md:hidden">
+              <FaArrowRight />
+            </button>
+          </Link>
+
+          {/* Visible only on larger screens (lg and above) */}
+          <div className="hidden lg:flex gap-4">
             <Link to={"/landingPage/sustainability"}>
-              <button className="hover:bg-green-950 hover:text-white text-black border border-green-950 rounded-full font-medium hover:font-semibold bg-opacity-25 p-2 sm:p-[0.7rem] text-sm sm:text-[1.2rem] shadow-md">
+              <button className="bg-green-950 text-white px-4 py-2 rounded-full font-normal shadow-md hover:bg-green-900 text-[1.2rem]">
+                Know More
+              </button>
+            </Link>
+            <Link to={"/landingPage/sustainability"}>
+              <button className="hover:bg-green-950 hover:text-white text-black border border-green-950 rounded-full        font-medium hover:font-semibold bg-opacity-25 p-[0.7rem] text-[1.2rem] shadow-md md:hidden">
                 <FaArrowRight />
               </button>
             </Link>
           </div>
+        </div>
+
         </div>
       </div>
 

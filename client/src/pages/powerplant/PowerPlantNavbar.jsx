@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 const PowerPlantNavbar = () => {
   const [user, setUser] = useState(null);
@@ -50,22 +50,28 @@ const PowerPlantNavbar = () => {
             </NavLink>
           ))}
         </div>
-        <div className="w-[10%] flex justify-end items-center">
+        <Link to='/powerplant/profile'>
+        
+        <div className="w-8 h-8 rounded-full flex justify-end items-center">
           {user?.image?.trim() ? (
+          
             <img
               src={user.image}
               alt="User Profile"
-              className="w-8 h-8 rounded-full border-2 border-white"
+              className="w-8 h-8 rounded-full border-2 border-white cursor-pointer"
               onError={(e) => {
                 e.target.src = "https://via.placeholder.com/40"; // Fallback image
               }}
             />
+          
+            
           ) : (
             <div className="w-8 h-8 rounded-full bg-gray-500 flex items-center justify-center text-sm">
               ?
             </div>
           )}
         </div>
+        </Link>
       </nav>
     </div>
   );

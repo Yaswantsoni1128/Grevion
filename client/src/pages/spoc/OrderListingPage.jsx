@@ -32,10 +32,12 @@ const OrderRequests = () => {
         setOrders(response.data.requests || []);
       } else {
         setOrders([]);
+        setError("Failed to fetch orders")
         toast.error(response.data.message || "Failed to fetch orders.");
       }
     } catch (error) {
       console.error("Error fetching orders:", error);
+      setError("Error fetching orders")
       toast.error("Failed to fetch orders.");
     } finally {
       setLoading(false);

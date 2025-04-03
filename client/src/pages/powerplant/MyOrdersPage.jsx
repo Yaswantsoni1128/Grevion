@@ -6,6 +6,12 @@ const MyOrdersPage = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [filter, setFilter] = useState("all"); // Filter state
+
+  const firstCharacterUpperCase = (word) => {
+    if (!word) return ""; // Handle empty input
+    return word.charAt(0).toUpperCase() + word.slice(1);
+  };
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -51,6 +57,12 @@ const MyOrdersPage = () => {
     fetchOrders();
   }, []);
 
+  // Function to filter orders based on status
+  const filteredOrders = orders.filter((order) => {
+    if (filter === "all") return true;
+    return order.status === filter;
+  });
+
   return (
     <div className="flex flex-col gap-10 items-center bg-gray-100">
       <div className="relative w-full">
@@ -69,63 +81,90 @@ const MyOrdersPage = () => {
       ) : error ? (
         <p className="text-lg font-semibold text-red-600">{error}</p>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
+        <div className="w-full p-4">
           {orders.length === 0 ? (
             <p className="text-lg font-semibold text-gray-600">
               No orders found.
             </p>
           ) : (
-            orders.map((order) => (
-              <div
-                key={order._id}
-                className="relative w-80 transform transition duration-300 hover:scale-105"
-              >
-                {/* Order Name Button Outside the Clipped Div */}
-                <button className="bg-green-800 text-white rounded-xl p-1 w-[5.5rem] absolute -top-1 -left-1 shadow-lg text-md">
-                  {order.name}
-                </button>
-
-                {/* Clipped Order Card */}
-                <div
-                  className="relative flex flex-col gap-1 justify-center bg-white rounded-xl p-6 w-80 h-56 "
-                  style={{
-                    clipPath:
-                      "polygon(24% 15%, 35% 0, 100% 0, 100% 100%, 0 100%, 0 15%)",
-                  }}
-                >
-                  <h3 className="text-md mt-4 text-gray-700">
-                    <strong>Order ID: </strong>
-                    <span className="text-sm font-normal p-1 rounded-xl text-gray-700">
-                      {order._id}
-                    </span>
-                  </h3>
-                  <p className="text-md text-gray-700">
-                    <strong>Requested Parali:</strong> {order.requestedParali}{" "}
-                    tons
-                  </p>
-                  <p className="text-md text-gray-700">
-                    <strong>Total Price:</strong> ₹{order.totalPrice}
-                  </p>
-                  <p className="text-md text-gray-700">
-                    <strong>Deliver Within:</strong> {order.deliverWithin} days
-                  </p>
-                  <p className="text-md text-gray-700">
-                    <strong>Location:</strong> {order.location}
-                  </p>
-                  <p
-                    className={`text-md font-bold ${
-                      order.status === "pending"
-                        ? "text-yellow-600"
-                        : order.status === "accepted"
-                        ? "text-lime-600"
-                        : "text-red-600"
-                    }`}
+            <div className="w-full m-auto">
+              {/* Filter Buttons */}
+              <div className="w-[90%] max-w-4xl mx-auto flex justify-between items-center px-4 py-3 bg-green-900/85 backdrop-blur-md rounded-full shadow-xl border border-green-600 mb-6">
+                {["all", "pending", "accepted", "rejected"].map((status) => (
+                  <button
+                    key={status}
+                    className={`relative px-6 py-2 font-semibold transition-all duration-300 rounded-full text-sm sm:text-base tracking-wide uppercase
+        ${
+          filter === status
+            ? "bg-white text-green-900 shadow-lg scale-105"
+            : "bg-transparent text-white border border-white hover:bg-white hover:text-green-900 hover:scale-110 hover:shadow-md"
+        }`}
+                    onClick={() => setFilter(status)}
                   >
-                    <strong>Status:</strong> {order.status}
-                  </p>
-                </div>
+                    {status.charAt(0).toUpperCase() + status.slice(1)} Orders
+                    {filter === status && (
+                      <span className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-3 h-1 bg-green-400 rounded-full"></span>
+                    )}
+                  </button>
+                ))}
               </div>
-            ))
+
+              {/* Orders Grid */}
+              <div className="flex flex-wrap justify-around p-6 gap-6">
+                {filteredOrders.map((order) => (
+                  <div
+                    key={order._id}
+                    className="relative w-80 transform transition duration-300 hover:scale-105"
+                  >
+                    {/* Order Name Button */}
+                    <button className="bg-green-800 text-white rounded-xl p-1 w-[5.5rem] absolute -top-1 -left-1 shadow-lg text-md">
+                      {order.name}
+                    </button>
+
+                    {/* Order Card */}
+                    <div
+                      className="relative flex flex-col gap-1 justify-center bg-white rounded-xl p-6 w-80 h-56"
+                      style={{
+                        clipPath:
+                          "polygon(24% 15%, 35% 0, 100% 0, 100% 100%, 0 100%, 0 15%)",
+                      }}
+                    >
+                      <h3 className="text-md mt-4 text-gray-700">
+                        <strong>Order ID: </strong>
+                        <span className="text-sm font-normal p-1 rounded-xl text-gray-700">
+                          {order._id}
+                        </span>
+                      </h3>
+                      <p className="text-md text-gray-700">
+                        <strong>Requested Parali:</strong>{" "}
+                        {order.requestedParali} tons
+                      </p>
+                      <p className="text-md text-gray-700">
+                        <strong>Total Price:</strong> ₹{order.totalPrice}
+                      </p>
+                      <p className="text-md text-gray-700">
+                        <strong>Deliver Within:</strong> {order.deliverWithin}{" "}
+                        days
+                      </p>
+                      <p className="text-md text-gray-700">
+                        <strong>Location:</strong> {firstCharacterUpperCase(order.location)}
+                      </p>
+                      <p
+                        className={`text-md font-bold ${
+                          order.status === "pending"
+                            ? "text-yellow-600"
+                            : order.status === "accepted"
+                            ? "text-lime-600"
+                            : "text-red-600"
+                        }`}
+                      >
+                        <strong>Status:</strong> {firstCharacterUpperCase(order.status)}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           )}
         </div>
       )}

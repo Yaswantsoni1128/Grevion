@@ -103,7 +103,7 @@ const MyOrdersPage = () => {
                   >
                     {status.charAt(0).toUpperCase() + status.slice(1)} Orders
                     {filter === status && (
-                      <span className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-3 h-1 bg-green-400 rounded-full"></span>
+                      <span className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-3 h-1rounded-full"></span>
                     )}
                   </button>
                 ))}

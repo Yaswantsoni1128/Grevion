@@ -10,7 +10,7 @@ function PPCardSection() {
                 Access key functionalities for managing your orders, payments, and profile with ease.
             </p>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 
                 <div className="bg-green-100 shadow-lg rounded-2xl p-6 text-center flex flex-col items-center">
                     <FaList className="text-green-700 text-5xl mb-4" />
@@ -34,7 +34,7 @@ function PPCardSection() {
                     </Link>
                 </div>
     
-                <div className="bg-blue-100 shadow-lg rounded-2xl p-6 text-center flex flex-col items-center">
+                {/* <div className="bg-blue-100 shadow-lg rounded-2xl p-6 text-center flex flex-col items-center">
                     <FaCreditCard className="text-blue-700 text-5xl mb-4" />
                     <h3 className="text-xl font-bold">Make Payment</h3>
                     <p className="text-gray-600 text-sm md:text-base text-center">Proceed with payments securely.</p>
@@ -43,7 +43,7 @@ function PPCardSection() {
                             Pay Now
                         </button>
                     </Link>
-                </div>
+                </div> */}
     
                 <div className="bg-purple-100 shadow-lg rounded-2xl p-6 text-center flex flex-col items-center">
                     <FaUser className="text-purple-700 text-5xl mb-4" />

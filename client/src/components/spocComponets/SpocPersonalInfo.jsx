@@ -45,7 +45,7 @@ function SpocPersonalInfo() {
   }, []);
 
   return (
-    <div className="p-6 pb-10 mb-20 mr-20 bg-white border-2 border-gray-300 shadow-md rounded-lg min-w-[60%]">
+    <div className="p-6 pb-10 mb-20 mr-20 bg-white border-2 border-gray-300 shadow-md rounded-lg max-w-[60%]">
       <div className="flex items-center justify-between pb-4 border-b">
         <h2 className="text-xl font-semibold text-gray-900">Personal Information</h2>
         <button className="flex items-center px-3 py-1 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700">
@@ -81,7 +81,7 @@ function SpocPersonalInfo() {
           </div>
           <div className="col-span-2">
             <p className="font-semibold text-gray-900">Bio</p>
-            <p>{userInfo.bio || `I am ${userInfo.name}.`}</p>
+            <p>{userInfo.bio || `I am ${userInfo.name}, the SPOC (Single Point of Contact) for seamless communication, efficient coordination, and ensuring smooth collaboration between power plants/industries and farmers.`}</p>
           </div>
           <div className="col-span-2">
             <p className="font-semibold text-gray-900">Village</p>

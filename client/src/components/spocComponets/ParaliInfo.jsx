@@ -13,16 +13,18 @@ function ParaliInfo() {
       setError(""); // Reset error state
 
       const token = localStorage.getItem("token");
-      
+      const userId = localStorage.getItem("userId");
+      console.log("UserId : ", userId)
 
       const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/api/v1/users/getUserProfile/${userId}`,
+        `${import.meta.env.VITE_API_URL}/api/v1/spoc/getSpocInfo`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
       console.log("spoc info",response.data)
       if (response.data.success) {
+        console.log("parali info new : ", response.data.spoc)
         setUserInfo(response.data.spoc);
       } else {
         setError("Error fetching user data");

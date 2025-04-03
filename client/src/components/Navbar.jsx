@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { MdDashboard, MdLogout, MdMenu, MdClose } from "react-icons/md";
+import { GoHomeFill } from "react-icons/go";
 
 const Navbar = () => {
   const location = useLocation();
@@ -34,7 +35,10 @@ const Navbar = () => {
     <>
       <nav className="bg-green-950 px-6 md:px-20 py-4 flex items-center justify-between relative">
         <Link to={"/"}>
-          <h1 className="text-2xl font-bold cursor-pointer text-lime-400 hover:text-lime-300">Grevion</h1>
+          <h1 className="text-2xl font-bold cursor-pointer text-lime-400 hover:text-lime-300 flex justify-center items-center gap-1">
+            <p><GoHomeFill /></p>
+            Grevion
+          </h1>
         </Link>
 
         <div className="hidden md:flex space-x-6 text-white">

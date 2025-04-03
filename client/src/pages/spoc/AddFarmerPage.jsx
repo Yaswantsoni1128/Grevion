@@ -53,7 +53,7 @@ const AddFarmerPage = () => {
 
   return (
     <div className="py-10 bg-gray-100 flex justify-center items-center bg-[url('/src/assets/addFarmer.jpg')] bg-cover">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-lg bg-opacity-80">
+      <div className="bg-white p-8 rounded-lg shadow-lg w-[80%] max-w-lg bg-opacity-80">
         <h2 className="text-3xl font-bold text-green-700 mb-6 text-center">Add Farmer</h2>
 
         {message && <p className="text-green-600 text-center">{message}</p>}

@@ -75,24 +75,22 @@ const signUp = async (req, res) => {
         }
 
         const recentOtp = await Otp.find({ email }).sort({ createdAt: -1 }).limit(1);
-        console.log(recentOtp)
         if (recentOtp.length === 0) {
             return res.status(400).json({
                 success: false,
-                message: "Otp not found"
+                message: "OTP not found"
             });
         }
 
         if (otp !== recentOtp[0].otp) {
             return res.status(400).json({
                 success: false,
-                message: "Invalid Otp"
+                message: "Invalid OTP"
             });
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        // Create user object
         const user = new User({
             name,
             email,
@@ -103,39 +101,48 @@ const signUp = async (req, res) => {
             image: `https://api.dicebear.com/5.x/initials/svg?seed=${name} ${name}`
         });
 
-        // Save user in User model
         const savedUser = await user.save();
 
-        // If the user is a SPOC, save them in the SPOC model
         if (role === "spoc") {
             const newSpoc = new Spoc({
-                userId: savedUser._id, // Reference to the User model
-                name: `${name} `,
+                userId: savedUser._id,
+                name,
                 email,
                 phone,
                 location,
-                totalParaliCollected:0,
+                totalParaliCollected: 0,
             });
-
             await newSpoc.save();
         }
 
-        // If the user is a Power Plant, save them in the PowerPlant model
         if (role === "power_plant") {
             const newPowerPlant = new PowerPlant({
-                userId: savedUser._id, // Reference to the User model
-                name: `${name}`,
+                userId: savedUser._id,
+                name,
                 email,
                 phone,
                 location
             });
-
             await newPowerPlant.save();
         }
+
+        const token = jwt.sign(
+            {
+                email: savedUser.email,
+                id: savedUser._id,
+                role: savedUser.role
+            },
+            process.env.SECRET_KEY,
+            {
+                expiresIn: "2h"
+            }
+        );
 
         return res.status(200).json({
             success: true,
             message: "User registered successfully",
+            token,
+            role: savedUser.role,
             savedUser
         });
 
@@ -143,10 +150,11 @@ const signUp = async (req, res) => {
         console.error(error);
         return res.status(400).json({
             success: false,
-            message: "User is not registered, Please try again"
+            message: "User is not registered, please try again"
         });
     }
 };
+
 
 
 const login = async (req, res) => {

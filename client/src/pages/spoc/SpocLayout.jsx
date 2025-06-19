@@ -3,22 +3,20 @@ import SpocNavbar from "./SpocNavbar";
 import { Navigate, Outlet } from "react-router-dom";
 
 const SpocLayout = () => {
-
-  const role  = localStorage.getItem("role")
+  const role = localStorage.getItem("role");
 
   if (role !== "spoc") {
-    return <Navigate to="/powerplant/dashboard" replace />;
+    return <Navigate to="/unauthorized" replace />;
   }
 
   return (
     <div>
       <SpocNavbar />
       <div>
-        <Outlet /> 
+        <Outlet />
       </div>
-
     </div>
   );
 };
+export default SpocLayout
 
-export default SpocLayout;

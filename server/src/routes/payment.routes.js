@@ -1,6 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
-import Stripe from "stripe"; // Import Stripe properly in ES module format
+import Stripe from "stripe" // Import Stripe properly in ES module format
 
 dotenv.config(); // Load environment variables
 

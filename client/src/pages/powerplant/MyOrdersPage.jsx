@@ -75,10 +75,10 @@ const MyOrdersPage = () => {
             <div className="w-full m-auto">
               {/* Filter Buttons */}
               <div className="w-[90%] max-w-4xl mx-auto flex justify-between items-center px-4 py-3 bg-green-900/85 backdrop-blur-md rounded-full shadow-xl border border-green-600 mb-6">
-                {["all", "pending", "accepted", "rejected"].map((status) => (
+                {["all", "pending", "accepted", "paid", "rejected"].map((status) => (
                   <button
                     key={status}
-                    className={`relative px-6 py-2 font-semibold transition-all duration-300 rounded-full text-sm sm:text-base tracking-wide uppercase ${
+                    className={`relative px-2 py-2 font-semibold transition-all duration-300 rounded-full text-sm sm:text-base tracking-wide uppercase ${
                       filter === status
                         ? "bg-white text-green-900 shadow-lg scale-105"
                         : "bg-transparent text-white border border-white hover:bg-white hover:text-green-900 hover:scale-110 hover:shadow-md"
@@ -131,6 +131,8 @@ const MyOrdersPage = () => {
                             ? "text-yellow-600"
                             : order.status === "accepted"
                             ? "text-lime-600"
+                            : order.status === "paid"
+                            ? "text-green-600"
                             : "text-red-600"
                         }`}
                       >
@@ -140,7 +142,7 @@ const MyOrdersPage = () => {
                       {/* Proceed to Payment Button */}
                       {order.status === "accepted" && (
                         <button
-                          onClick={() => navigate("/powerplant/payment")}
+                          onClick={() => navigate("/powerplant/payment", { state: { orderId: order._id, amount: order.totalPrice } })}
                           className="mt-3 px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition"
                         >
                           Proceed to Payment

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements, CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import paymentImg from "../../assets/payment.jpg";
@@ -12,16 +13,20 @@ const CheckoutForm = () => {
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(false);
 
+    const location = useLocation();
+    const navigate = useNavigate();
+    const { orderId, amount } = location.state || { amount: 1000, orderId: null };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
         setError(null);
 
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/create-payment-intent`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/payment/create-payment-intent`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ amount: 1000, currency: "usd" }),
+                body: JSON.stringify({ amount: amount * 100 || 1000, currency: "inr" }),
             });
 
             const data = await response.json();
@@ -35,7 +40,15 @@ const CheckoutForm = () => {
             if (error) {
                 setError(error.message);
             } else {
+                if (orderId) {
+                    await fetch(`${import.meta.env.VITE_API_URL}/api/payment/confirm-payment`, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ orderId }),
+                    });
+                }
                 setSuccess(true);
+                setTimeout(() => navigate('/powerplant/my-orders'), 2000);
             }
         } catch (err) {
             setError("Something went wrong! Please try again.");

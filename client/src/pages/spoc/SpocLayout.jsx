@@ -5,9 +5,11 @@ import { Navigate, Outlet } from "react-router-dom";
 const SpocLayout = () => {
   const role = localStorage.getItem("role");
 
+
   if (role !== "spoc") {
     return <Navigate to="/unauthorized" replace />;
   }
+
 
   return (
     <div>

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import spocListingImg from "../../assets/spocListing.png";
+import { FiSearch } from "react-icons/fi";
+
 
 const SpocListingPage = () => {
   const [spocs, setSpocs] = useState([]);
@@ -17,6 +19,7 @@ const SpocListingPage = () => {
     message: "",
   });
   const [selectedSpocId, setSelectedSpocId] = useState(null);
+  const [searchQuery, setSearchQuery] = useState(""); 
 
   useEffect(() => {
     const fetchSpocs = async () => {
@@ -49,9 +52,9 @@ const SpocListingPage = () => {
   };
 
   const firstCharacterUpperCase = (word) => {
-  if (!word) return ""; // Handle empty input
-  return word.charAt(0).toUpperCase() + word.slice(1);
-};
+    if (!word) return "";
+    return word.charAt(0).toUpperCase() + word.slice(1);
+  };
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -75,6 +78,11 @@ const SpocListingPage = () => {
     }
   };
 
+  // Filter SPOCs by location
+  const filteredSpocs = spocs.filter((spoc) =>
+    spoc.location.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <div className="relative flex flex-col items-center min-h-screen bg-gray-100">
       <div className="relative w-full">
@@ -89,6 +97,18 @@ const SpocListingPage = () => {
       </div>
 
       <div className="w-full max-w-6xl p-10">
+        <div className="mb-6 flex items-center shadow-md shadow-gray-200 rounded-md px-2 w-full sm:w-80 bg-white outline-none border-none">
+          <FiSearch className="text-gray-500 text-xl mr-2" />
+          <input
+            type="text"
+            placeholder="Search by location..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full p-2 outline-none"
+          />
+        </div>
+
+
         {loading ? (
           <p className="text-lg font-semibold text-center text-gray-600">
             Loading...
@@ -97,15 +117,13 @@ const SpocListingPage = () => {
           <p className="text-lg font-semibold text-center text-red-600">
             {error}
           </p>
-        ) : (       
-
+        ) : (
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {spocs.map((spoc) => (
+            {filteredSpocs.map((spoc) => (
               <div
                 key={spoc._id}
                 className="relative w-80 transform transition duration-300 hover:scale-105"
               >
-                {/* clipPath: "polygon(100% 0, 100% 83%, 70% 83%, 63% 100%, 0 98%, 0 0)", */}
                 <div
                   className="relative flex flex-col gap-1 justify-center bg-white rounded-xl p-6 w-72 h-48 sm:w-80 sm:h-48 "
                   style={{
@@ -131,11 +149,10 @@ const SpocListingPage = () => {
                   </p>
                 </div>
 
-                {/* Button at Bottom Right */}
                 {spoc.availableForSale && (
                   <button
                     onClick={() => handleOrderClick(spoc._id)}
-                    className={`" text-white rounded-xl p-1 w-[5.5rem] sm:w-[6.5rem] absolute -bottom-0 right-8 sm:-bottom-1 sm:-right-1 shadow-lg  text-sm sm:text-md" ${
+                    className={`text-white rounded-xl p-1 w-[5.5rem] sm:w-[6.5rem] absolute -bottom-0 right-8 sm:-bottom-1 sm:-right-1 shadow-lg text-sm sm:text-md ${
                       orderStatus[spoc._id]
                         ? "bg-green-800 text-white cursor-not-allowed"
                         : "bg-amber-600 text-white"

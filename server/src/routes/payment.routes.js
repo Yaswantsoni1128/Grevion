@@ -1,8 +1,10 @@
 import express from "express";
 import dotenv from "dotenv";
+
 import Stripe from "stripe"; // Import Stripe properly in ES module format
 import { Order, Spoc, User } from "../models/index.js";
 import mailSender from "../utils/MailSender.utils.js";
+
 dotenv.config(); // Load environment variables
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY); // Securely load secret key

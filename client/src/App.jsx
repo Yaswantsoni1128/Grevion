@@ -27,12 +27,11 @@ import SpocNavbar from './pages/spoc/SpocNavbar.jsx';
 import SpocLayout from './pages/spoc/SpocLayout.jsx';
 import PowerPlantProfile from './pages/powerplant/PowerPlantProfile.jsx';
 import PowerPlantLayout from './pages/powerplant/PowerPlantLayout.jsx';
-import Faqs from './pages/LandingPage/FAQs.jsx';
+import Faqs from './pages/LandingPage/Faqs.jsx';
 import AboutUsPage from './pages/AboutUsPage.jsx';
 import OurServices from './pages/OurServices.jsx';
 import ContactUs from './pages/ContactUs.jsx';
 import Blog from './pages/Blog.jsx';
-import Checkout from './pages/powerplant/Checkout.jsx';
 
 const App = () => {
 
@@ -69,8 +68,6 @@ const App = () => {
             <Route path="my-orders" element={<MyOrdersPage />} />
             <Route path="spocs-listing" element={<SpocsListing />} />
             <Route path="profile" element={<PowerPlantProfile />} />
-            
-            <Route path="payment" element={<Checkout />} />
           </Route>
         </Route>
 
